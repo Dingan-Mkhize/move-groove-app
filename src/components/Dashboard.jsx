@@ -1,16 +1,13 @@
 import React from 'react'
+
 import { Card, Typography } from "@material-tailwind/react";
 import { TABLE_HEAD, TABLE_ROWS } from "../Data"
 
 const Dashboard = () => {
   return (
-    
-    
-    
-    
-    <div className="w-full h-screen grid items-center">
+    <div name="dashboard" className="w-full h-screen grid items-center">
       <div>
-        <Card className="h-full m-9 border-2 shadow-xl">
+        <Card className="h-full m-9 border-2 border-indigo-600 shadow-xl">
           <table className="w-full min-w-max table-auto text-left">
             <thead>
               <tr>
@@ -69,8 +66,8 @@ const Dashboard = () => {
                     <td className={`${classes} bg-blue-gray-50/50`}>
                       <Typography
                         as="a"
-                        href="#"
-                        variant="small"
+                        href="/edit"
+                        variant=""
                         color="blue"
                         className="font-medium"
                       >

@@ -28,9 +28,9 @@ const Hero = () => {
 
 {/* icon message */}
         <div
-          className="absolute flex flex-col items items-center py-8 md:min-w-[760px] bottom-[5%] md:left-1/2 transform md:-translate-x-1/2 bg-zinc-300 rounded-xl text-center shadow-xl mx-9 border-2 border-indigo-600"
+          className="absolute mx-auto flex flex-col items-center py-8 md:min-w-[760px] bottom-[5%] md:left-1/2 transform md:-translate-x-1/2 bg-zinc-300 rounded-xl text-center shadow-xl border-2 border-indigo-600"
         >
-          <p className="text-xl underline mb-3">Your no fuss workout tracker</p>
+          <p className="text-xl italic font-bold mb-3">Your no fuss workout tracker</p>
           <div className="flex justify-between flex-wrap px-4">
             <p className="flex px-4 py-2 text-black">
               <FaCheck className="h-6 mx-3 text-indigo-600" /> Check In
