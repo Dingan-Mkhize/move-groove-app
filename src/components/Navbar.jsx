@@ -32,10 +32,10 @@ const Navbar = () => {
         </div>
         <div className="hidden md:flex pr-4">
           <button className="bg-transparent hover:bg-indigo-600 font-bold hover:text-white py-2 px-4 border-2 border-indigo-600 hover:border-transparent hover:animate-bounce rounded-full text-indigo-600 mr-4 shadow-xl">
-            Sign In
+            <Link to="/login">Log In</Link>
           </button>
           <button className="px-8 py-3 bg-indigo-600 border-2 text-white rounded-full hover:bg-transparent border-indigo-600 hover:text-indigo-600 hover:animate-bounce shadow-xl">
-            Sign Up
+            <Link to="/signup">Sign Up</Link>
           </button>
         </div>
         <div className="md:hidden mr-4" onClick={handleClick}>

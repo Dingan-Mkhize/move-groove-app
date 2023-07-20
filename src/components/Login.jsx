@@ -22,13 +22,12 @@ const Login = () => {
             <input className="border p-2" type="password" />
           </div>
           <button className="border w-full my-3 py-2 bg-indigo-600 rounded-full text-white hover:animate-bounce shadow-x">
-            Sign In
+            Log In
           </button>
           <div className="flex justify-between">
             <p className="flex items-center">
               <input className='mr-2' type="checkbox" name="" /> Remember Me
             </p>
-            <p>Create an account</p>
           </div>
         </form>
       </div>
