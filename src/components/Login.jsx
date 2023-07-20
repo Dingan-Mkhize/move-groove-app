@@ -15,11 +15,11 @@ const Login = () => {
           </h2>
           <div className="flex flex-col py-2">
             <label>Username</label>
-            <input className="border p-2" type="text" />
+            <input className="border-2 border-black rounded-full p-2" type="text" />
           </div>
           <div className="flex flex-col py-2">
             <label>Password</label>
-            <input className="border p-2" type="password" />
+            <input className="border-2 border-black rounded-full p-2" type="password" />
           </div>
           <button className="border w-full my-3 py-2 bg-indigo-600 rounded-full text-white hover:animate-bounce shadow-x">
             Log In

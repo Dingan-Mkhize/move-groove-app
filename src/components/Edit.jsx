@@ -16,11 +16,33 @@ const Edit = () => {
             alt="/"
           />
         </div>
-        <div className="flex w-72 flex-col gap-6">
-          <Input color="blue" label="Input Blue" />
-          <Input color="purple" label="Input Purple" />
-          <Input color="indigo" label="Input Indigo" />
-          <Input color="teal" label="Input Teal" />
+
+        <div className="flex flex-col justify-center">
+          <form className="max-w-[400px] w-full mx-auto rounded-md p-6">
+            <h2 className="text-4xl font-bold text-center py-6">
+              Edit Your Exercise
+            </h2>
+            <div className="flex flex-col py-2">
+              <label>Date</label>
+              <input
+                className="border-2 border-indigo-600 rounded-full p-2"
+                type="date"
+              />
+            </div>
+            <div className="flex flex-col py-2">
+              <label>Duration</label>
+              <input
+                className="border-2 border-indigo-600 rounded-full p-2"
+                type="number"
+              />
+              <p>minutes</p>
+            </div>
+            <div className="flex flex-col py-2">
+              <label>Distance</label>
+              <input className="border-2 border-indigo-600 rounded-full p-2" type="number" />
+              <p>km</p>
+            </div>
+          </form>
         </div>
       </div>
     </div>
