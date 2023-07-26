@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"
 
 
 import bgImg from "../assets/hero-img.avif";
@@ -15,7 +16,7 @@ const Hero = () => {
           <h1 className="py-3 text-5xl md:text-7xl font-bold">Move & Groove</h1>
           <p className="text-2xl italic">If you wanna find the GROOVE!</p>
           <button className="py-3 px-6 sm:w-[60%] my-4 bg-indigo-600 rounded-full text-white hover:animate-bounce shadow-xl">
-            Get Started
+            <Link to="/signup">Get Started</Link>
           </button>
         </div>
         <div className="mx-9">
@@ -25,7 +26,6 @@ const Hero = () => {
             alt="/"
           />
         </div>
-
       </div>
     </div>
   );

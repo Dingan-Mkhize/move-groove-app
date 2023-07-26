@@ -75,10 +75,10 @@ const Navbar = () => {
 
         <div className="flex flex-col my-4">
           <button className="bg-transparent text-indigo-600 px-8 py-3 mb-4  hover:bg-indigo-600 font-bold hover:text-white border-2 border-indigo-600 hover:border-transparent hover:animate-bounce rounded-full shadow-xl">
-            Sign In
+            <Link to="/login">Log In</Link>
           </button>
           <button className="px-8 py-3 bg-indigo-600 border-2 text-white rounded-full hover:bg-transparent border-indigo-600 hover:text-indigo-600 hover:animate-bounce shadow-xl">
-            Sign Up
+            <Link to="/signup">Sign Up</Link>
           </button>
         </div>
       </ul>

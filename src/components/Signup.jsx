@@ -10,8 +10,9 @@ const Signup = () => {
 
       <div className="flex flex-col justify-center">
         <form className="max-w-[400px] w-full mx-auto rounded-md shadow-xl bg-zinc-300 p-6">
+          <p className='text-center -mb-3 italic font-bold'>Come and join us at</p>
           <h2 className="text-4xl font-bold text-center py-6">
-            Moove & Groove
+            Moove & Groove!
           </h2>
           <div className="flex flex-col py-2">
             <label>First Name</label>
