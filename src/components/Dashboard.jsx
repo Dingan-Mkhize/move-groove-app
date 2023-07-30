@@ -1,88 +1,171 @@
-import React from 'react'
+import React from "react";
+import { StatusOnlineIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom"
+import {
+  AreaChart,
+  Card,
+  Metric,
+  TabList,
+  Tab,
+  TabGroup,
+  TabPanels,
+  TabPanel,
+} from "@tremor/react";
 
-import { Card, Typography } from "@material-tailwind/react";
-import { TABLE_HEAD, TABLE_ROWS } from "../Data"
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableHeaderCell,
+  TableBody,
+  TableCell,
+  Text,
+  Title,
+  Badge,
+} from "@tremor/react";
 
-const Dashboard = () => {
-  return (
-    <div name="dashboard" className="w-full h-screen grid items-center">
-      <div>
-        <Card className="h-full m-9 border-2 border-indigo-600 shadow-xl">
-          <table className="w-full min-w-max table-auto text-left">
-            <thead>
-              <tr>
-                {TABLE_HEAD.map((head) => (
-                  <th
-                    key={head}
-                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                  >
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal leading-none opacity-70"
-                    >
-                      {head}
-                    </Typography>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {TABLE_ROWS.map(({ exercise, duration, date }, index) => {
-                const isLast = index === TABLE_ROWS.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
+import { logic } from "../Data";
+import { data } from "../Data";
 
-                return (
-                  <tr key={exercise}>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {exercise}
-                      </Typography>
-                    </td>
-                    <td className={`${classes} bg-blue-gray-50/50`}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {duration}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {date}
-                      </Typography>
-                    </td>
-                    <td className={`${classes} bg-blue-gray-50/50`}>
-                      <Typography
-                        as="a"
-                        href="/edit"
-                        variant=""
-                        color="blue"
-                        className="font-medium"
-                      >
-                        Edit
-                      </Typography>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </Card>
-      </div>
-    </div>
+const numberFormatter = (value: number) =>
+  Intl.NumberFormat("us").format(value).toString();
+const percentageFormatter = (value: number) =>
+  `${Intl.NumberFormat("us")
+    .format(value * 100)
+    .toString()}%`;
+function sumArray(array: any[], metric: string) {
+  return array.reduce(
+    (accumulator, currentValue) => accumulator + currentValue[metric],
+    0
   );
 }
 
-export default Dashboard
+const Dashboard = () => {
+  return (
+    <div
+      name="dashboard"
+      className="w-full h-fit grid md:grid-cols-1 items-center"
+    >
+      <div className="mt-10">
+        <div className="mt-20 mx-20">
+          <header className="text-4xl text-[#000000] font-bold inline border-b-4 border-indigo-600">
+            Dashboard
+          </header>
+
+          <div className=" flex flex-col items-center justify-center">
+            <h1 className="text-center text-xl italic py-6 text-[#000000] font-bold">
+              Add a new exercise to your routine!
+            </h1>
+
+            <button className="items-center py-3 sm:w-[30%] my-4 bg-indigo-600 rounded-full text-white hover:animate-bounce shadow-xl">
+              <Link to="/exercises">New Exercise</Link>
+            </button>
+          </div>
+        </div>
+
+        <div className="mx-20 my-10 border-2 border-indigo-600 rounded-xl shadow-xl">
+          <Card className="p-0">
+            <TabGroup>
+              <TabList>
+                <Tab className="p-4 sm:p-6 text-left">
+                  <p className="text-sm sm:text-base">Visitors</p>
+                  <Metric className="mt-2 text-inherit">
+                    {numberFormatter(sumArray(data, "Visitors"))}
+                  </Metric>
+                </Tab>
+                <Tab className="p-4 sm:p-6 text-left">
+                  <p className="text-sm sm:text-base">Page views</p>
+                  <Metric className="mt-2 text-inherit">
+                    {numberFormatter(sumArray(data, "Page Views"))}
+                  </Metric>
+                </Tab>
+                <Tab className="p-4 sm:p-6 text-left">
+                  <p className="text-sm sm:text-base">Bounce rate</p>
+                  <Metric className="mt-2 text-inherit">
+                    {percentageFormatter(
+                      sumArray(data, "Bounce Rate") / data.length
+                    )}
+                  </Metric>
+                </Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel className="p-6">
+                  <AreaChart
+                    className="h-80 mt-10"
+                    data={data}
+                    index="Month"
+                    categories={["Visitors"]}
+                    colors={["blue"]}
+                    valueFormatter={numberFormatter}
+                    showLegend={false}
+                    yAxisWidth={50}
+                  />
+                </TabPanel>
+                <TabPanel className="p-6">
+                  <AreaChart
+                    className="h-80 mt-10"
+                    data={data}
+                    index="Month"
+                    categories={["Page Views"]}
+                    colors={["blue"]}
+                    valueFormatter={numberFormatter}
+                    showLegend={false}
+                    yAxisWidth={50}
+                  />
+                </TabPanel>
+                <TabPanel className="p-6">
+                  <AreaChart
+                    className="h-80 mt-10"
+                    data={data}
+                    index="Month"
+                    categories={["Bounce Rate"]}
+                    colors={["blue"]}
+                    valueFormatter={percentageFormatter}
+                    showLegend={false}
+                    yAxisWidth={40}
+                  />
+                </TabPanel>
+              </TabPanels>
+            </TabGroup>
+          </Card>
+        </div>
+
+        <div className="mx-20 my-10 border-2 border-indigo-600 rounded-xl shadow-xl">
+          <Card>
+            <Title className="text-3xl">My Activites</Title>
+            <Table className="mt-5">
+              <TableHead>
+                <TableRow>
+                  <TableHeaderCell>Exercise</TableHeaderCell>
+                  <TableHeaderCell>Date</TableHeaderCell>
+                  <TableHeaderCell>Department</TableHeaderCell>
+                  <TableHeaderCell>Status</TableHeaderCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {logic.map((item) => (
+                  <TableRow key={item.exercise}>
+                    <TableCell>{item.exercise}</TableCell>
+                    <TableCell>
+                      <Text>{item.date}</Text>
+                    </TableCell>
+                    <TableCell>
+                      <Text>{item.duration}</Text>
+                    </TableCell>
+                    <TableCell>
+                      <Badge color="emerald" icon={StatusOnlineIcon}>
+                        {item.status}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

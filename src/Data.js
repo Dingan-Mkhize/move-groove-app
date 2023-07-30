@@ -15,33 +15,67 @@ import Swimming from "./assets/swimming.png";
 import Treadmill from "./assets/treadmill.png";
 import Yoga from "./assets/yoga.png";
 
-export const TABLE_HEAD = ["Exercise", "Duration", "Date", ""];
+export const data = [
+  {
+    Month: "Jan 22",
+    Visitors: 289,
+    "Page Views": 1012,
+    "Bounce Rate": 0.5,
+  },
+  //...
+  {
+    Month: "Jan 23",
+    Visitors: 389,
+    "Page Views": 1232,
+    "Bounce Rate": 0.51,
+  },
+];
 
-export const TABLE_ROWS = [
+export const logic = [
   {
     exercise: "Bench Press",
-    duration: "30",
-    date: "23/04/18",
+    date: "20/09/2023",
+    duration:
+      "30 min",
+    status: "active",
   },
   {
     exercise: "Boxing",
-    duration: "60",
-    date: "23/04/18",
+    date: "20/09/2023",
+    duration:
+      "60 min",
+    status: "active",
   },
   {
     exercise: "Cardio",
-    duration: "90",
-    date: "19/09/17",
+    date: "20/09/2023",
+    duration: "45 min",
+    status: "active",
   },
   {
     exercise: "Cycling",
-    duration: "60",
-    date: "24/12/08",
+    date: "20/09/2023",
+    duration: "60 min",
+    status: "active",
   },
   {
-    exercise: "Running",
-    duration: "30",
-    date: "04/10/21",
+    exercise: "Dumbell",
+    date: "20/09/2023",
+    duration: "30 min",
+    status: "active",
+  },
+  {
+    exercise: "Exercise Bike",
+    date: "20/09/2023",
+    duration:
+      "40 min",
+    status: "active",
+  },
+  {
+    exercise: "Jumping Rope",
+    date: "20/09/2023",
+    duration: "35 min",
+    status: "active",
   },
 ];
 
