@@ -17,15 +17,15 @@ import Yoga from "./assets/yoga.png";
 
 export const data = [
   {
-    Month: "Jan 22",
-    Visitors: 289,
+    Month: "Jan 1",
+    Activities: 3,
     "Page Views": 1012,
     "Bounce Rate": 0.5,
   },
   //...
   {
-    Month: "Jan 23",
-    Visitors: 389,
+    Month: "Feb 1",
+    Activities: 9,
     "Page Views": 1232,
     "Bounce Rate": 0.51,
   },

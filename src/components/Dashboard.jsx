@@ -57,7 +57,7 @@ const Dashboard = () => {
               Add a new exercise to your routine!
             </h1>
 
-            <button className="items-center py-3 sm:w-[30%] my-4 bg-indigo-600 rounded-full text-white hover:animate-bounce shadow-xl">
+            <button className="items-center py-3 sm:w-[30%] my-4 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-xl">
               <Link to="/exercises">New Exercise</Link>
             </button>
           </div>
@@ -68,9 +68,9 @@ const Dashboard = () => {
             <TabGroup>
               <TabList>
                 <Tab className="p-4 sm:p-6 text-left">
-                  <p className="text-sm sm:text-base">Visitors</p>
+                  <p className="text-sm sm:text-base">Activities</p>
                   <Metric className="mt-2 text-inherit">
-                    {numberFormatter(sumArray(data, "Visitors"))}
+                    {numberFormatter(sumArray(data, "Activities"))}
                   </Metric>
                 </Tab>
                 <Tab className="p-4 sm:p-6 text-left">
@@ -94,7 +94,7 @@ const Dashboard = () => {
                     className="h-80 mt-10"
                     data={data}
                     index="Month"
-                    categories={["Visitors"]}
+                    categories={["Activities"]}
                     colors={["blue"]}
                     valueFormatter={numberFormatter}
                     showLegend={false}
@@ -138,7 +138,7 @@ const Dashboard = () => {
                 <TableRow>
                   <TableHeaderCell>Exercise</TableHeaderCell>
                   <TableHeaderCell>Date</TableHeaderCell>
-                  <TableHeaderCell>Department</TableHeaderCell>
+                  <TableHeaderCell>Duration</TableHeaderCell>
                   <TableHeaderCell>Status</TableHeaderCell>
                 </TableRow>
               </TableHead>

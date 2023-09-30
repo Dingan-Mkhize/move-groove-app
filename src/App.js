@@ -6,13 +6,15 @@ import Edit from "./components/Edit";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Footer from "./components/Footer";
-
 import { Routes, Route } from "react-router-dom";
+import { createContext, useState } from "react";
 
+export const LoginContext = createContext();
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(localStorage.access ? true : false);
   return (
-    <>
+    <LoginContext.Provider value={[loggedIn, setLoggedIn]}>
       <Navbar />
       <Routes>
         <Route path="home" element={<Home />} />
@@ -23,7 +25,7 @@ function App() {
         <Route path="signup" element={<Signup />} />
       </Routes>
       <Footer />
-    </>
+    </LoginContext.Provider>
   );
 }
 

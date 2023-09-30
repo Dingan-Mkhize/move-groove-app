@@ -7,7 +7,7 @@ const Edit = () => {
       name="edit"
       className="h-screen w-full flex flex-col justify-between items-center"
     >
-      <div className="grid 2 max-w-[1240px] m-auto mx-9">
+      <div className="grid md:grid-cols-2 max-w-[1240px] m-auto mx-9">
         <div className="m-9">
           <img
             className="w-full rounded-xl shadow-xl shadow-[#7d7d7d] border-2 border-indigo-600"
@@ -50,6 +50,7 @@ const Edit = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 

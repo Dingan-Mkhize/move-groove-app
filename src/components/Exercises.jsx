@@ -26,7 +26,7 @@ const Activities = () => {
               />
               <p className="my-4 text-[#ffffff]">{exercise.title}</p>
               <div className="flex justify-center">
-                <button className="flex bg-white text-[#000000]  rounded-full mb-2 mx-auto py-1 px-3 hover:scale-110 duration-500 border-2 border-indigo-600 hover:animate-bounce shadow-xl">
+                <button className="flex bg-white text-[#000000]  rounded-full mb-2 mx-auto py-1 px-3 hover:scale-110 duration-500 border-2 border-indigo-600 hover:bounceOrig shadow-xl">
                   <Link to="/edit">Add</Link>
                 </button>
               </div>

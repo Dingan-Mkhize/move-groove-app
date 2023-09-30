@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { LoginContext } from "../App"
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const handleClick = () => setNav(!nav);
-
   const handleClose = () => setNav(!nav);
+
+      const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
   return (
     <div
@@ -19,23 +20,31 @@ const Navbar = () => {
           <h1 className="text-3xl font-bold mr-9 sm:text-4xl">M & G.</h1>
 
           <ul className="hidden md:flex">
-            <li className="hover:text-indigo-600 hover:animate-bounce">
+            <li className="hover:text-indigo-600 hover:bounceOrig">
               <Link to="home">Home</Link>
             </li>
-            <li className="hover:text-indigo-600 hover:animate-bounce">
+            <li className="hover:text-indigo-600 hover:bounceOrig">
               <Link to="dashboard">Dashboard</Link>
             </li>
-            <li className="hover:text-indigo-600 hover:animate-bounce">
+            <li className="hover:text-indigo-600 hover:bounceOrig">
               <Link to="exercises">Exercises</Link>
             </li>
           </ul>
         </div>
         <div className="hidden md:flex pr-4">
-          <button className="bg-transparent hover:bg-indigo-600 font-bold hover:text-white py-2 px-4 border-2 border-indigo-600 hover:border-transparent hover:animate-bounce rounded-full text-indigo-600 mr-4 shadow-xl">
-            <Link to="/login">Log In</Link>
+          <button className="bg-transparent hover:bg-indigo-600 font-bold hover:text-white py-2 px-4 border-2 border-indigo-600 hover:border-transparent hover:bounceOrig rounded-full text-indigo-600 mr-4 shadow-xl">
+            
+            {loggedIn ? (<Link to={"/login"} onClick={() => {
+              setLoggedIn(false);
+              localStorage.clear();
+            }} >Logout</Link>
+            ) : ( 
+            <Link to={"/login"}>Login</Link>)}
+
+
           </button>
-          <button className="px-8 py-3 bg-indigo-600 border-2 text-white rounded-full hover:bg-transparent border-indigo-600 hover:text-indigo-600 hover:animate-bounce shadow-xl">
-            <Link to="/signup">Sign Up</Link>
+          <button className="px-8 py-3 bg-indigo-600 border-2 text-white rounded-full hover:bg-transparent border-indigo-600 hover:text-indigo-600 hover:bounceOrig shadow-xl">
+            <Link to="/signup">Signup</Link>
           </button>
         </div>
         <div className="md:hidden mr-4" onClick={handleClick}>
@@ -74,10 +83,10 @@ const Navbar = () => {
         </li>
 
         <div className="flex flex-col my-4">
-          <button className="bg-transparent text-indigo-600 px-8 py-3 mb-4  hover:bg-indigo-600 font-bold hover:text-white border-2 border-indigo-600 hover:border-transparent hover:animate-bounce rounded-full shadow-xl">
+          <button className="bg-transparent text-indigo-600 px-8 py-3 mb-4  hover:bg-indigo-600 font-bold hover:text-white border-2 border-indigo-600 hover:border-transparent hover:bounceOrig rounded-full shadow-xl">
             <Link to="/login">Log In</Link>
           </button>
-          <button className="px-8 py-3 bg-indigo-600 border-2 text-white rounded-full hover:bg-transparent border-indigo-600 hover:text-indigo-600 hover:animate-bounce shadow-xl">
+          <button className="px-8 py-3 bg-indigo-600 border-2 text-white rounded-full hover:bg-transparent border-indigo-600 hover:text-indigo-600 hover:bounceOrig shadow-xl">
             <Link to="/signup">Sign Up</Link>
           </button>
         </div>

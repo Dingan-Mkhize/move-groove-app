@@ -1,7 +1,44 @@
-import React from 'react'
-import signupImg from '../assets/signupImg.jpeg'
+import React from "react";
+import signupImg from "../assets/signupImg.jpeg";
+import { useState } from "react";
 
 const Signup = () => {
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [created, setCreated] = useState("false");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  function createUser(event) {
+    event.preventDefault();
+    event.target.reset();
+
+    const user = {
+      username,
+      email,
+      password,
+    };
+
+    fetch("http://localhost:3000/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ user }),
+    })
+      .then((r) => r.json())
+      .then((response) => {
+        console.log(response);
+        if (response.status.code === 200) {
+          localStorage.setItem("jwt", JSON.stringify(response.status.data));
+          setCreated("true");
+          setErrorMessage("");
+        }
+      })
+      .catch((response) => setErrorMessage("Error!"));
+  }
+
   return (
     <div className="h-screen w-full grid grid-cols-1 sm:grid-cols-2">
       <div className="hidden sm:block">
@@ -9,39 +46,61 @@ const Signup = () => {
       </div>
 
       <div className="flex flex-col justify-center">
-        <form className="max-w-[400px] w-full mx-auto rounded-md shadow-xl bg-zinc-300 p-6">
-          <p className='text-center -mb-3 italic font-bold'>Come and join us at</p>
+        <form
+          onSubmit={createUser}
+          className="max-w-[400px] w-full mx-auto rounded-md shadow-xl bg-zinc-300 p-6"
+        >
+          <p className="text-center -mb-3 italic font-bold">
+            Come and join us!
+          </p>
           <h2 className="text-4xl font-bold text-center py-6">
-            Moove & Groove!
+            Moove & Groove
           </h2>
           <div className="flex flex-col py-2">
             <label>First Name</label>
-            <input className="border-2 border-black rounded-full p-2" type="text" />
+            <input
+              className="border-2 border-black rounded-full p-2"
+              type="username"
+              onChange={(e) => setUserName(e.target.value)}
+            />
           </div>
           <div className="flex flex-col py-2">
             <label>Surname</label>
-            <input className="border-2 border-black rounded-full p-2" type="text" />
+            <input
+              className="border-2 border-black rounded-full p-2"
+              type="text"
+            />
           </div>
           <div className="flex flex-col py-2">
             <label>Email</label>
-            <input className="border-2 border-black rounded-full p-2" type="email" />
+            <input
+              className="border-2 border-black rounded-full p-2"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div className="flex flex-col py-2">
             <label>Confirm Email</label>
-            <input className="border-2 border-black rounded-full p-2" type="email" />
+            <input
+              className="border-2 border-black rounded-full p-2"
+              type="email"
+            />
           </div>
           <div className="flex flex-col py-2">
             <label>Password</label>
-            <input className="border-2 border-black rounded-full p-2" type="password" />
+            <input
+              className="border-2 border-black rounded-full p-2"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
-          <button className="border w-full my-3 py-2 bg-indigo-600 rounded-full text-white hover:animate-bounce shadow-x">
+          <button className="border w-full my-3 py-2 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-x">
             Sign Up
           </button>
-          
         </form>
       </div>
     </div>
   );
-}
+};
 
-export default Signup
+export default Signup;
