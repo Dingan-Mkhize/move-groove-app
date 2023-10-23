@@ -19,9 +19,9 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "success") {
-          localStorage.setItem("jwt-token", data.token);
+          localStorage.setItem("jwt", data.token);
           setUserName("");
-          setEmail("")
+          setEmail("");
           setPassword("");
         } else {
           alert(data.message);
@@ -40,9 +40,7 @@ const Login = () => {
           onSubmit={logInUser}
           className="max-w-[400px] w-full mx-auto rounded-md shadow-xl bg-zinc-300 p-6"
         >
-          <p className="text-center -mb-3 italic font-bold">
-            Welcome back!
-          </p>
+          <p className="text-center -mb-3 italic font-bold">Welcome back!</p>
           <h2 className="text-4xl font-bold text-center py-6">
             Moove & Groove
           </h2>

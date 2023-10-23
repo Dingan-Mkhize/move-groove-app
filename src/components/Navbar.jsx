@@ -21,7 +21,7 @@ const Navbar = () => {
 
           <ul className="hidden md:flex">
             <li className="hover:text-indigo-600 hover:bounceOrig">
-              <Link to="home">Home</Link>
+              <Link to="/">Home</Link>
             </li>
             <li className="hover:text-indigo-600 hover:bounceOrig">
               <Link to="dashboard">Dashboard</Link>

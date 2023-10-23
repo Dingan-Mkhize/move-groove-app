@@ -43,14 +43,13 @@ const Edit = () => {
                 type="number"
               />
             </div>
-            <button className="w-full py-3 px-6 my-4 bg-indigo-600 rounded-full text-white hover:animate-bounce shadow-xl">
+            <button className="w-full py-3 px-6 my-4 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-xl">
               Submit
             </button>
           </form>
         </div>
       </div>
     </div>
-    
   );
 };
 

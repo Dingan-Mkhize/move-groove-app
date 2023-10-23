@@ -12,12 +12,21 @@ import { createContext, useState } from "react";
 export const LoginContext = createContext();
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(localStorage.access ? true : false);
+  const [loggedIn, setLoggedIn] = useState(localStorage.jwt ? true : false
+    );
+
+  function changeLoggedIn(value) {
+    setLoggedIn(value);
+    if (value === false){
+      localStorage.clear();
+      }
+    }
+
   return (
-    <LoginContext.Provider value={[loggedIn, setLoggedIn]}>
+    <LoginContext.Provider value={[loggedIn, changeLoggedIn]}>
       <Navbar />
       <Routes>
-        <Route path="home" element={<Home />} />
+        <Route path="/" exact element={<Home />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="exercises" element={<Exercises />} />
         <Route path="edit" element={<Edit />} />

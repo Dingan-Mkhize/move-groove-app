@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusOnlineIcon } from "@heroicons/react/outline";
+import { PencilIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom"
 import {
   AreaChart,
@@ -21,7 +21,6 @@ import {
   TableCell,
   Text,
   Title,
-  Badge,
 } from "@tremor/react";
 
 import { logic } from "../Data";
@@ -139,7 +138,6 @@ const Dashboard = () => {
                   <TableHeaderCell>Exercise</TableHeaderCell>
                   <TableHeaderCell>Date</TableHeaderCell>
                   <TableHeaderCell>Duration</TableHeaderCell>
-                  <TableHeaderCell>Status</TableHeaderCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -152,10 +150,10 @@ const Dashboard = () => {
                     <TableCell>
                       <Text>{item.duration}</Text>
                     </TableCell>
-                    <TableCell>
-                      <Badge color="emerald" icon={StatusOnlineIcon}>
+                    <TableCell className="hover:text-indigo-600 hover:bounceOrig">
+                      <Link to="/Edit" icon={PencilIcon}>
                         {item.status}
-                      </Badge>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}

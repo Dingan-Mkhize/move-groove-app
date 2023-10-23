@@ -35,47 +35,44 @@ export const logic = [
   {
     exercise: "Bench Press",
     date: "20/09/2023",
-    duration:
-      "30 min",
-    status: "active",
+    duration: "30 min",
+    status: "Edit",
   },
   {
     exercise: "Boxing",
     date: "20/09/2023",
-    duration:
-      "60 min",
-    status: "active",
+    duration: "60 min",
+    status: "Edit",
   },
   {
     exercise: "Cardio",
     date: "20/09/2023",
     duration: "45 min",
-    status: "active",
+    status: "Edit",
   },
   {
     exercise: "Cycling",
     date: "20/09/2023",
     duration: "60 min",
-    status: "active",
+    status: "Edit",
   },
   {
     exercise: "Dumbell",
     date: "20/09/2023",
     duration: "30 min",
-    status: "active",
+    status: "Edit",
   },
   {
     exercise: "Exercise Bike",
     date: "20/09/2023",
-    duration:
-      "40 min",
-    status: "active",
+    duration: "40 min",
+    status: "Edit",
   },
   {
     exercise: "Jumping Rope",
     date: "20/09/2023",
     duration: "35 min",
-    status: "active",
+    status: "Edit",
   },
 ];
 
