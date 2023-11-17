@@ -27,11 +27,11 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" exact element={<Home />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="exercises" element={<Exercises />} />
-        <Route path="edit" element={<Edit />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Signup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/exercises" element={<Exercises />} />
+        <Route path="/edit" element={<Edit />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
       <Footer />
     </LoginContext.Provider>

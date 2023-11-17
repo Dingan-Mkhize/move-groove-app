@@ -1,43 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import signupImg from "../assets/signupImg.jpeg";
-import { useState } from "react";
 
 const Signup = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [created, setCreated] = useState("false");
   const [errorMessage, setErrorMessage] = useState("");
 
-  function createUser(event) {
+  const createUser = async (event) => {
     event.preventDefault();
-    event.target.reset();
 
-    const user = {
-      username,
-      email,
-      password,
-    };
+    try {
+      const user = {
+        username,
+        email,
+        password,
+      };
 
-    fetch("http://localhost:3000/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ user }),
-    })
-      .then((r) => r.json())
-      .then((response) => {
-        console.log(response);
-        if (response.status.code === 200) {
-          localStorage.setItem("jwt", JSON.stringify(response.status.data));
-          setCreated("true");
-          setErrorMessage("");
-        }
-      })
-      .catch((response) => setErrorMessage("Error!"));
-  }
+      const response = await fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ user }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        localStorage.setItem("jwt", JSON.stringify(data.status.data));
+        setErrorMessage("");
+      } else {
+        setErrorMessage("Error!");
+      }
+    } catch (error) {
+      console.error("Error creating user:", error);
+      setErrorMessage("Error!");
+    }
+  };
 
   return (
     <div className="h-screen w-full grid grid-cols-1 sm:grid-cols-2">
@@ -57,15 +58,17 @@ const Signup = () => {
             Moove & Groove
           </h2>
           <div className="flex flex-col py-2">
-            <label>First Name</label>
+            <label htmlFor="username">First Name</label>
             <input
+              id="username"
               className="border-2 border-black rounded-full p-2"
-              type="username"
+              type="text"
+              value={username}
               onChange={(e) => setUserName(e.target.value)}
             />
           </div>
           <div className="flex flex-col py-2">
-            <label>Surname</label>
+            <label htmlFor="username">Surname</label>
             <input
               className="border-2 border-black rounded-full p-2"
               type="text"
@@ -94,9 +97,15 @@ const Signup = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className="border w-full my-3 py-2 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-x">
+          <button
+            type="submit"
+            className="border w-full my-3 py-2 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-x"
+          >
             Sign Up
           </button>
+          {errorMessage && (
+            <p className="text-red-500 text-sm text-center">{errorMessage}</p>
+          )}
         </form>
       </div>
     </div>

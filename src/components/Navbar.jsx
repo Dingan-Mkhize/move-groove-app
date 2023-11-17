@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { LoginContext } from "../App"
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
+//import Login from "./Login";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
