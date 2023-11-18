@@ -4,6 +4,7 @@ import Dashboard from "./components/Dashboard";
 import Exercises from "./components/Exercises";
 import Edit from "./components/Edit";
 import Login from "./components/Login";
+import Logout from "./components/Logout";
 import Signup from "./components/Signup";
 import Footer from "./components/Footer";
 import { Routes, Route } from "react-router-dom";
@@ -31,6 +32,7 @@ function App() {
         <Route path="/exercises" element={<Exercises />} />
         <Route path="/edit" element={<Edit />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
       <Footer />

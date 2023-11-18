@@ -3,31 +3,31 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 
-const Login = () => {
-  const [username, setUserName] = useState("");
+const Logout = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useContext(LoginContext);
+  const [loggedOut, setLoggedOut] = useContext(LoginContext);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     // check if a JWT token is present in local storage
     const jwtToken = localStorage.getItem("jwt");
-    setLoggedIn(!!jwtToken);
-  }, [loggedIn, navigate, setLoggedIn]);
+    console.log("jwtToken", jwtToken);
+    setLoggedOut(!jwtToken);
+  }, [navigate, setLoggedOut]);
 
   useEffect(() => {
     // Redirect to the home page when the user is logged in
-    if (loggedIn) {
-      navigate("/");
+    if (loggedOut) {
+      navigate("/", { replace: true});
     }
-  }, [loggedIn, navigate]);
+  }, [navigate]);
 
-  function logInUser(event) {
+  function logOutUser(event) {
     event.preventDefault();
-    fetch("http://localhost:3000/users/sign_in", {
-      method: "POST",
+    fetch("http://localhost:3000/users/sign_out", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
@@ -37,21 +37,17 @@ const Login = () => {
       .then((data) => {
         if (data.status && data.status.code === 200) {
           console.log(data.status.message);
-          localStorage.setItem("jwt", data.token);
-          setLoggedIn(true);
-          setUserName("");
+          localStorage.removeItem("jwt", data.token);
+          setLoggedOut(true);
           setEmail("");
           setPassword("");
         } else {
           alert(data.message);
         }
+      })
+      .catch((error) => {
+        console.error("Logout error:", error);
       });
-  }
-
-  function logOutUser() {
-    // Clear the JWT token from local storage
-    localStorage.removeItem("jwt");
-    setLoggedIn(false);
   }
 
   return (
@@ -61,32 +57,16 @@ const Login = () => {
       </div>
 
       <div className="flex flex-col justify-center">
-        {loggedIn ? (
-          <div>
-            <p>Welcome, {username}!</p>
-            <button onClick={logOutUser}>Log Out</button>
-          </div>
-        ) : (
-          <div>
             <form
-              onSubmit={logInUser}
+              onSubmit={logOutUser}
               className="max-w-[400px] w-full mx-auto rounded-md shadow-xl bg-zinc-300 p-6"
             >
               <p className="text-center -mb-3 italic font-bold">
-                Welcome back!
+                Goodbye! Come back soon!
               </p>
               <h2 className="text-4xl font-bold text-center py-6">
                 Moove & Groove
               </h2>
-              <div className="flex flex-col py-2">
-                <label>Username</label>
-                <input
-                  className="border-2 border-black rounded-full p-2"
-                  value={username}
-                  type="text"
-                  onChange={(e) => setUserName(e.target.value)}
-                />
-              </div>
               <div className="flex flex-col py-2">
                 <label>Email</label>
                 <input
@@ -110,10 +90,8 @@ const Login = () => {
               </button>
             </form>
           </div>
-        )}
       </div>
-    </div>
   );
 };
 
-export default Login;
+export default Logout;
