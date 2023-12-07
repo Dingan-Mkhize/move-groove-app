@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { LoginContext } from "../App";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -9,6 +9,49 @@ const Navbar = () => {
   const handleClose = () => setNav(!nav);
 
   const [loggedIn, setLoggedIn] = useContext(LoginContext);
+
+  useEffect(() => {
+    // This useEffect runs whenever loggedIn state changes
+    if (!loggedIn) {
+      // If not logged in, reset the navigation state
+      setNav(false);
+    }
+  }, [loggedIn]);
+
+  const logOutUser = async (event) => {
+    event.preventDefault();
+
+    try {
+      const token = localStorage.getItem("jwt");
+
+      const response = await fetch("http://localhost:4000/logout", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+        credentials: "include",
+      });
+
+      // console.log("Request URL:", "http://localhost:4000/logout");
+      // console.log("Request Headers:", response.headers);
+      // console.log("Request Status:", response.status);
+
+      const data = await response.json();
+      console.log("Response Data:", data);
+
+      if (response.ok) {
+        //console.log(data.status.message);
+        localStorage.removeItem("jwt");
+        setLoggedIn(false);
+      } else {
+        const data = await response.json();
+        alert(data.message || "Logout failed");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <div
@@ -32,28 +75,29 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="hidden md:flex pr-4">
-          <button className="bg-transparent hover:bg-indigo-600 font-bold hover:text-white py-2 px-4 border-2 border-indigo-600 hover:border-transparent hover:bounceOrig rounded-full text-indigo-600 mr-4 shadow-xl">
-            {loggedIn ? (
+          {loggedIn ? (
+            <Link
+              className="bg-transparent hover:bg-indigo-600 font-bold hover:text-white py-2 px-4 border-2 border-indigo-600 hover:border-transparent hover:bounceOrig rounded-full text-indigo-600 mr-4 shadow-xl"
+              to={"/logout"}
+              onClick={logOutUser}
+            >
+              Logout
+            </Link>
+          ) : (
+            <>
               <Link
-                to={"/logout"}
-                onClick={() => {
-                  setLoggedIn(false);
-                  localStorage.clear();
-                }}
+                className="bg-transparent hover:bg-indigo-600 font-bold hover:text-white py-3 px-4 border-2 border-indigo-600 hover:border-transparent hover:bounceOrig rounded-full text-indigo-600 mr-4 shadow-xl"
+                to={"/login"}
               >
-                Logout
+                Login
               </Link>
-            ) : (
-              <Link to={"/logout"}>Login</Link>
-            )}
-          </button>
-
-          {!loggedIn && (
-            <button className="px-8 py-3 bg-indigo-600 border-2 text-white rounded-full hover:bg-transparent border-indigo-600 hover:text-indigo-600 hover:bounceOrig shadow-xl">
-              <Link to="/signup">Signup</Link>
-            </button>
+              <button className="px-8 py-3 bg-indigo-600 border-2 text-white rounded-full hover:bg-transparent border-indigo-600 hover:text-indigo-600 hover:bounceOrig shadow-xl">
+                <Link to="/signup">Signup</Link>
+              </button>
+            </>
           )}
         </div>
+
         <div className="md:hidden mr-4" onClick={handleClick}>
           {!nav ? <MenuIcon className="w-5" /> : <XIcon className="w-5" />}
         </div>

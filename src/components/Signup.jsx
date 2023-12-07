@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+//import { useNavigate } from "react-router-dom"
 import signupImg from "../assets/signupImg.jpeg";
 
 const Signup = () => {
-  const [username, setUserName] = useState("");
+  //const navigate = useNavigate();
+  //const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -12,12 +14,12 @@ const Signup = () => {
 
     try {
       const user = {
-        username,
+        //username,
         email,
         password,
       };
 
-      const response = await fetch("http://localhost:3000/users", {
+      const response = await fetch("http://localhost:4000/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,6 +33,7 @@ const Signup = () => {
       if (response.status === 200) {
         localStorage.setItem("jwt", JSON.stringify(data.status.data));
         setErrorMessage("");
+        //navigate.push("./dashboard");
       } else {
         setErrorMessage("Error!");
       }
@@ -58,21 +61,7 @@ const Signup = () => {
             Moove & Groove
           </h2>
           <div className="flex flex-col py-2">
-            <label htmlFor="username">First Name</label>
-            <input
-              id="username"
-              className="border-2 border-black rounded-full p-2"
-              type="text"
-              value={username}
-              onChange={(e) => setUserName(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col py-2">
-            <label htmlFor="username">Surname</label>
-            <input
-              className="border-2 border-black rounded-full p-2"
-              type="text"
-            />
+            
           </div>
           <div className="flex flex-col py-2">
             <label>Email</label>

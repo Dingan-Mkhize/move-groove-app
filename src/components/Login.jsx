@@ -1,57 +1,59 @@
 import loginImg from "../assets/loginImg.avif";
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 
 const Login = () => {
-  const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   useEffect(() => {
     // check if a JWT token is present in local storage
     const jwtToken = localStorage.getItem("jwt");
     setLoggedIn(!!jwtToken);
-  }, [loggedIn, navigate, setLoggedIn]);
+  }, [loggedIn, setLoggedIn]);
 
-  useEffect(() => {
-    // Redirect to the home page when the user is logged in
-    if (loggedIn) {
-      navigate("/");
-    }
-  }, [loggedIn, navigate]);
+  // useEffect(() => {
+  //   // Redirect to the home page when the user is logged in
+  //   if (loggedIn) {
+  //     navigate("/");
+  //   }
+  // }, [loggedIn, navigate]);
 
-  function logInUser(event) {
-    event.preventDefault();
-    fetch("http://localhost:3000/users/sign_in", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user: { email, password } }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status && data.status.code === 200) {
-          console.log(data.status.message);
-          localStorage.setItem("jwt", data.token);
-          setLoggedIn(true);
-          setUserName("");
-          setEmail("");
-          setPassword("");
-        } else {
-          alert(data.message);
-        }
+  async function logInUser(event) {
+    try {
+      event.preventDefault();
+      let response = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user: { email, password } }),
       });
-  }
 
-  function logOutUser() {
-    // Clear the JWT token from local storage
-    localStorage.removeItem("jwt");
-    setLoggedIn(false);
+      console.log("Response Headers:", response.headers);
+
+      let data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("jwt", response.headers.get("Authorization"));
+        console.log("Token stored in localStorage:", response.headers.get("Authorization"));
+
+        setLoggedIn(true);
+        setEmail("");
+        setPassword("");
+      } else {
+        console.error("Login failed:", data.message);
+        alert("Login failed. Please check your credentials.");
+      }
+    } catch (error) {
+      console.error("Login error:", error.message);
+      alert("An error occurred. Please try again later.");
+    }
   }
 
   return (
@@ -61,56 +63,38 @@ const Login = () => {
       </div>
 
       <div className="flex flex-col justify-center">
-        {loggedIn ? (
-          <div>
-            <p>Welcome, {username}!</p>
-            <button onClick={logOutUser}>Log Out</button>
-          </div>
-        ) : (
-          <div>
-            <form
-              onSubmit={logInUser}
-              className="max-w-[400px] w-full mx-auto rounded-md shadow-xl bg-zinc-300 p-6"
-            >
-              <p className="text-center -mb-3 italic font-bold">
-                Welcome back!
-              </p>
-              <h2 className="text-4xl font-bold text-center py-6">
-                Moove & Groove
-              </h2>
-              <div className="flex flex-col py-2">
-                <label>Username</label>
-                <input
-                  className="border-2 border-black rounded-full p-2"
-                  value={username}
-                  type="text"
-                  onChange={(e) => setUserName(e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col py-2">
-                <label>Email</label>
-                <input
-                  className="border-2 border-black rounded-full p-2"
-                  value={email}
-                  type="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col py-2">
-                <label>Password</label>
-                <input
-                  className="border-2 border-black rounded-full p-2"
-                  value={password}
-                  type="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <button className="border w-full my-3 py-2 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-x">
-                Log In
-              </button>
-            </form>
-          </div>
-        )}
+        <div>
+          <form
+            onSubmit={logInUser}
+            className="max-w-[400px] w-full mx-auto rounded-md shadow-xl bg-zinc-300 p-6"
+          >
+            <p className="text-center -mb-3 italic font-bold">Welcome back!</p>
+            <h2 className="text-4xl font-bold text-center py-6">
+              Moove & Groove
+            </h2>
+            <div className="flex flex-col py-2">
+              <label>Email</label>
+              <input
+                className="border-2 border-black rounded-full p-2"
+                value={email}
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col py-2">
+              <label>Password</label>
+              <input
+                className="border-2 border-black rounded-full p-2"
+                value={password}
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button className="border w-full my-3 py-2 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-x">
+              Log In
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
