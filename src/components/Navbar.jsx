@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 
@@ -9,6 +9,7 @@ const Navbar = () => {
   const handleClose = () => setNav(!nav);
 
   const [loggedIn, setLoggedIn] = useContext(LoginContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // This useEffect runs whenever loggedIn state changes
@@ -28,7 +29,7 @@ const Navbar = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${token}`,
+          "Authorization": `${token}`,
         },
         credentials: "include",
       });
@@ -44,6 +45,7 @@ const Navbar = () => {
         //console.log(data.status.message);
         localStorage.removeItem("jwt");
         setLoggedIn(false);
+        navigate("/")
       } else {
         const data = await response.json();
         alert(data.message || "Logout failed");

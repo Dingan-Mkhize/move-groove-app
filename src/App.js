@@ -26,7 +26,7 @@ function App() {
     <LoginContext.Provider value={[loggedIn, changeLoggedIn]}>
       <Navbar />
       <Routes>
-        <Route path="/" exact element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/exercises" element={<Exercises />} />
         <Route path="/edit" element={<Edit />} />

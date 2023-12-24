@@ -1,27 +1,21 @@
-import loginImg from "../assets/loginImg.avif";
 import { useState, useEffect, useContext } from "react";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
+import loginImg from "../assets/loginImg.avif";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // Suppressing the specific ESLint warning
+  // eslint-disable-next-line no-unused-vars
   const [loggedIn, setLoggedIn] = useContext(LoginContext);
-
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // check if a JWT token is present in local storage
+    // Check if a JWT token is present in local storage and update loggedIn state
     const jwtToken = localStorage.getItem("jwt");
     setLoggedIn(!!jwtToken);
-  }, [loggedIn, setLoggedIn]);
-
-  // useEffect(() => {
-  //   // Redirect to the home page when the user is logged in
-  //   if (loggedIn) {
-  //     navigate("/");
-  //   }
-  // }, [loggedIn, navigate]);
+  }, [setLoggedIn]); 
 
   async function logInUser(event) {
     try {
@@ -34,18 +28,19 @@ const Login = () => {
         body: JSON.stringify({ user: { email, password } }),
       });
 
-      console.log("Response Headers:", response.headers);
-
       let data = await response.json();
 
       if (response.ok) {
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("jwt", response.headers.get("Authorization"));
-        console.log("Token stored in localStorage:", response.headers.get("Authorization"));
-
+        console.log(
+          "Token stored in localStorage:",
+          response.headers.get("Authorization")
+        );
         setLoggedIn(true);
-        setEmail("");
-        setPassword("");
+
+        // Navigate to the dashboard after successfully logging in
+        navigate("/dashboard");
       } else {
         console.error("Login failed:", data.message);
         alert("Login failed. Please check your credentials.");

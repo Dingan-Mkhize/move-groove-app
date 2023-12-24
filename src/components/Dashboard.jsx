@@ -62,7 +62,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="mx-20 my-10 border-2 border-indigo-600 rounded-xl shadow-xl">
+        <div className="mx-20 my-10 border-2 border-indigo-600 rounded shadow-xl">
           <Card className="p-0">
             <TabGroup>
               <TabList>
@@ -129,7 +129,7 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        <div className="mx-20 my-10 border-2 border-indigo-600 rounded-xl shadow-xl">
+        <div className="mx-20 my-10 border-2 border-indigo-600 rounded shadow-xl">
           <Card>
             <Title className="text-3xl">My Activites</Title>
             <Table className="mt-5">

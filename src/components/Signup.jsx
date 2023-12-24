@@ -1,20 +1,22 @@
-import React, { useState } from "react";
-//import { useNavigate } from "react-router-dom"
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../App";
 import signupImg from "../assets/signupImg.jpeg";
 
 const Signup = () => {
-  //const navigate = useNavigate();
-  //const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  // Suppressing the specific ESLint warning
+  // eslint-disable-next-line no-unused-vars
+  const [loggedIn, setLoggedIn] = useContext(LoginContext); // Use context
+  const navigate = useNavigate();
 
   const createUser = async (event) => {
     event.preventDefault();
 
     try {
       const user = {
-        //username,
         email,
         password,
       };
@@ -32,14 +34,16 @@ const Signup = () => {
 
       if (response.status === 200) {
         localStorage.setItem("jwt", JSON.stringify(data.status.data));
+        setLoggedIn(true);
         setErrorMessage("");
-        //navigate.push("./dashboard");
+        // Navigate to the dashboard after successful signup
+        navigate("/dashboard");
       } else {
-        setErrorMessage("Error!");
+        setErrorMessage(data.message || "Error!");
       }
     } catch (error) {
       console.error("Error creating user:", error);
-      setErrorMessage("Error!");
+      setErrorMessage(error.message || "Error!");
     }
   };
 
@@ -60,9 +64,7 @@ const Signup = () => {
           <h2 className="text-4xl font-bold text-center py-6">
             Moove & Groove
           </h2>
-          <div className="flex flex-col py-2">
-            
-          </div>
+          <div className="flex flex-col py-2"></div>
           <div className="flex flex-col py-2">
             <label>Email</label>
             <input
