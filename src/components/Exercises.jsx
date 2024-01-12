@@ -1,8 +1,39 @@
 import React from "react";
 import { Exercises } from "../Data";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Activities = () => {
+  let navigate = useNavigate();
+
+  const handleAddExercise = async (selectedExercise) => {
+    // Define the exercise data structure as required by your backend
+    const exerciseData = {
+      name: selectedExercise.title,
+      // other fields like date, duration, etc., if needed
+    };
+
+    try {
+      const response = await fetch("/api/activity_logs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Include authorization headers if required
+        },
+        body: JSON.stringify(exerciseData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add exercise");
+      }
+
+      // Redirect or update UI after successfully adding the exercise
+      navigate("/path-to-redirect"); // Redirect to a confirmation or activity log page
+    } catch (error) {
+      console.error("Error adding exercise:", error);
+      // Handle and display error to the user
+    }
+  };
+
   return (
     <div name="exercises" className="w-full h-fit bg-[#ffffff] text-zinc-300">
       <div className="max-w-[1000px] mx-auto p-4 flex flex-col justify-center w-full h-full">
