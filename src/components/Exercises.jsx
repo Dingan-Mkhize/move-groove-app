@@ -1,15 +1,14 @@
 import React from "react";
 import { Exercises } from "../Data";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Activities = () => {
   let navigate = useNavigate();
 
   const handleAddExercise = async (selectedExercise) => {
-    // Define the exercise data structure as required by your backend
     const exerciseData = {
       name: selectedExercise.title,
-      // other fields like date, duration, etc., if needed
+      // Add other fields as needed
     };
 
     try {
@@ -26,11 +25,12 @@ const Activities = () => {
         throw new Error("Failed to add exercise");
       }
 
-      // Redirect or update UI after successfully adding the exercise
-      navigate("/path-to-redirect"); // Redirect to a confirmation or activity log page
+      // After successfully adding the exercise, navigate to the edit page
+      navigate("/edit", {
+        state: { newExercise: true, exerciseData: exerciseData },
+      });
     } catch (error) {
       console.error("Error adding exercise:", error);
-      // Handle and display error to the user
     }
   };
 
@@ -57,8 +57,11 @@ const Activities = () => {
               />
               <p className="my-4 text-[#ffffff]">{exercise.title}</p>
               <div className="flex justify-center">
-                <button className="flex bg-white text-[#000000]  rounded-full mb-2 mx-auto py-1 px-3 hover:scale-110 duration-500 border-2 border-indigo-600 hover:bounceOrig shadow-xl">
-                  <Link to="/edit">Add</Link>
+                <button
+                  className="flex bg-white text-[#000000]  rounded-full mb-2 mx-auto py-1 px-3 hover:scale-110 duration-500 border-2 border-indigo-600 hover:bounceOrig shadow-xl"
+                  onClick={() => handleAddExercise(exercise)}
+                >
+                  Add
                 </button>
               </div>
             </div>

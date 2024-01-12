@@ -1,6 +1,6 @@
-import React from "react";
-import { PencilIcon } from "@heroicons/react/outline";
-import { Link } from "react-router-dom"
+import React, { useState, useEffect } from "react";
+//import { PencilIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 import {
   AreaChart,
   Card,
@@ -40,6 +40,53 @@ function sumArray(array: any[], metric: string) {
 }
 
 const Dashboard = () => {
+  const [activities, setActivities] = useState([]);
+  const jwtToken = localStorage.getItem("jwt"); // Retrieve JWT token from local storage
+
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const response = await fetch("/api/activity_logs", {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`, // Use jwtToken in the request header
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        setActivities(data); // Set activities in state
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    fetchActivities();
+  }, [jwtToken]); // Depend on jwtToken
+
+  const handleDeleteExercise = async (exerciseId) => {
+    try {
+      const response = await fetch(`/api/activity_logs/${exerciseId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`, // Use jwtToken in the request header
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete exercise");
+      }
+
+      setActivities(
+        activities.filter((activity) => activity.id !== exerciseId)
+      ); // Update state
+    } catch (error) {
+      console.error("Error deleting exercise:", error);
+    }
+  };
+
   return (
     <div
       name="dashboard"
@@ -131,13 +178,15 @@ const Dashboard = () => {
 
         <div className="mx-20 my-10 border-2 border-indigo-600 rounded shadow-xl">
           <Card>
-            <Title className="text-3xl">My Activites</Title>
+            <Title className="text-3xl">My Activities</Title>
             <Table className="mt-5">
               <TableHead>
                 <TableRow>
                   <TableHeaderCell>Exercise</TableHeaderCell>
                   <TableHeaderCell>Date</TableHeaderCell>
                   <TableHeaderCell>Duration</TableHeaderCell>
+                  <TableHeaderCell>Actions</TableHeaderCell>{" "}
+                  {/* Added Actions header */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -150,10 +199,16 @@ const Dashboard = () => {
                     <TableCell>
                       <Text>{item.duration}</Text>
                     </TableCell>
-                    <TableCell className="hover:text-indigo-600 hover:bounceOrig">
-                      <Link to="/Edit" icon={PencilIcon}>
-                        {item.status}
-                      </Link>
+                    <TableCell>
+                      <span className="hover:text-indigo-600 pr-3">
+                        <Link to={`/edit/${item.edit}`}>Edit</Link>
+                      </span>
+                      <button
+                        className="hover:text-indigo-600 pl-3"
+                        onClick={() => handleDeleteExercise(item.delete)}
+                      >
+                        Delete
+                      </button>
                     </TableCell>
                   </TableRow>
                 ))}

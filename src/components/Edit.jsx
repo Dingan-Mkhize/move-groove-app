@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import bgImg from "../assets/hero-img.avif";
 
 const Edit = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [workout, setWorkout] = useState({ date: "", duration: "" });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -45,6 +46,7 @@ const Edit = () => {
       console.log("Success:", data);
 
       // Redirect or update UI after successful operation
+      navigate("/path-after-successful-operation");
     } catch (error) {
       console.error("Error submitting the form:", error);
       // Handle errors here, such as displaying a message to the user
