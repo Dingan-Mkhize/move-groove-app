@@ -7,16 +7,19 @@ const Activities = () => {
 
   const handleAddExercise = async (selectedExercise) => {
     const exerciseData = {
-      name: selectedExercise.title,
-      // Add other fields as needed
+      exercise: selectedExercise.title, // Make sure this matches your backend's expected params
+      duration: 30, // Set a default duration or get from user
+      date: new Date().toISOString().slice(0, 10), // Set today's date as default or get from user
     };
 
+    const jwtToken = localStorage.getItem("jwt");
+
     try {
-      const response = await fetch("/api/activity_logs", {
+      const response = await fetch("http://localhost:4000/activity_logs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Include authorization headers if required
+          Authorization: `Bearer ${jwtToken}`,
         },
         body: JSON.stringify(exerciseData),
       });
@@ -25,9 +28,9 @@ const Activities = () => {
         throw new Error("Failed to add exercise");
       }
 
-      // After successfully adding the exercise, navigate to the edit page
-      navigate("/edit", {
-        state: { newExercise: true, exerciseData: exerciseData },
+      const newActivityLog = await response.json();
+      navigate(`/edit/${newActivityLog.id}`, {
+        state: { activityLog: newActivityLog },
       });
     } catch (error) {
       console.error("Error adding exercise:", error);

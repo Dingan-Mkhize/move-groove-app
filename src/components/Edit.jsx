@@ -5,7 +5,7 @@ import bgImg from "../assets/hero-img.avif";
 const Edit = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [workout, setWorkout] = useState({ date: "", duration: "" });
+  const [workout, setWorkout] = useState({ exercise: "", date: "", duration: "" });
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
