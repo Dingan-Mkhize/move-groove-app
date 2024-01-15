@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bgImg from "../assets/hero-img.avif";
 
-const Edit = () => {
+const Add = () => {
   const navigate = useNavigate();
   const [workout, setWorkout] = useState({
     exercise: "",
@@ -34,35 +34,20 @@ const Edit = () => {
         body: JSON.stringify({ activity_log: workout }),
       });
 
-      // ... rest of your function
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Success:", data);
+
+      // Redirect to the dashboard after successful submission
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error creating the workout:", error);
+      // Optionally, update state here to show error message to the user
     }
   };
-
-  // const handleUpdate = async () => {
-  //   const url = `http://localhost:4000/activity_logs/${workout.id}`;
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-  //       },
-  //       body: JSON.stringify({ activity_log: workout }),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     const data = await response.json();
-  //     console.log("Success:", data);
-  //     navigate("/dashboard");
-  //   } catch (error) {
-  //     console.error("Error updating the workout:", error);
-  //   }
-  // };
 
   return (
     <div
@@ -131,4 +116,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default Add;

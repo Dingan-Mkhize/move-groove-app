@@ -3,6 +3,7 @@ import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import Exercises from "./components/Exercises";
 import Edit from "./components/Edit";
+import Add from "./components/Add";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Footer from "./components/Footer";
@@ -29,7 +30,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/exercises" element={<Exercises />} />
-        <Route path="/edit" element={<Edit />} />
+        <Route path="/edit/:id" element={<Edit />} />
+        <Route path="/add/:id" element={<Add />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>

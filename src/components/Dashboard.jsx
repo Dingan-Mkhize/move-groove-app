@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 //import { PencilIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import {
-  AreaChart,
+  //AreaChart,
   Card,
-  Metric,
-  TabList,
-  Tab,
-  TabGroup,
-  TabPanels,
-  TabPanel,
+  //Metric,
+  //TabList,
+  //Tab,
+  //TabGroup,
+  //TabPanels,
+  //TabPanel,
 } from "@tremor/react";
 
 import {
@@ -23,32 +23,37 @@ import {
   Title,
 } from "@tremor/react";
 
-import { logic } from "../Data";
-import { data } from "../Data";
+//import { logic } from "../Data";
+// import { data } from "../Data";
 
-const numberFormatter = (value: number) =>
-  Intl.NumberFormat("us").format(value).toString();
-const percentageFormatter = (value: number) =>
-  `${Intl.NumberFormat("us")
-    .format(value * 100)
-    .toString()}%`;
-function sumArray(array: any[], metric: string) {
-  return array.reduce(
-    (accumulator, currentValue) => accumulator + currentValue[metric],
-    0
-  );
-}
+// const numberFormatter = (value: number) =>
+//   Intl.NumberFormat("us").format(value).toString();
+// const percentageFormatter = (value: number) =>
+//   `${Intl.NumberFormat("us")
+//     .format(value * 100)
+//     .toString()}%`;
+// function sumArray(array: any[], metric: string) {
+//   return array.reduce(
+//     (accumulator, currentValue) => accumulator + currentValue[metric],
+//     0
+//   );
+// }
 
 const Dashboard = () => {
   const [activities, setActivities] = useState([]);
   const jwtToken = localStorage.getItem("jwt"); // Retrieve JWT token from local storage
 
   useEffect(() => {
+    const jwtToken = localStorage.getItem("jwt");
+    console.log(`${jwtToken}`); // Log the JWT token
+
     const fetchActivities = async () => {
+      console.log("Fetching activities...");
       try {
-        const response = await fetch("/api/activity_logs", {
+        const response = await fetch("http://localhost:4000/activity_logs", {
+          method: "GET",
           headers: {
-            Authorization: `Bearer ${jwtToken}`, // Use jwtToken in the request header
+            Authorization: `${jwtToken}`, // Use jwtToken in the request console.log(`Bearer ${jwtToken}`);
           },
         });
 
@@ -68,12 +73,15 @@ const Dashboard = () => {
 
   const handleDeleteExercise = async (exerciseId) => {
     try {
-      const response = await fetch(`/api/activity_logs/${exerciseId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${jwtToken}`, // Use jwtToken in the request header
-        },
-      });
+      const response = await fetch(
+        `http://localhost:4000/activity_logs/${exerciseId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `${jwtToken}`, // Use jwtToken in the request header
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete exercise");
@@ -109,7 +117,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="mx-20 my-10 border-2 border-indigo-600 rounded shadow-xl">
+        {/* <div className="mx-20 my-10 border-2 border-indigo-600 rounded shadow-xl">
           <Card className="p-0">
             <TabGroup>
               <TabList>
@@ -174,7 +182,7 @@ const Dashboard = () => {
               </TabPanels>
             </TabGroup>
           </Card>
-        </div>
+        </div> */}
 
         <div className="mx-20 my-10 border-2 border-indigo-600 rounded shadow-xl">
           <Card>
@@ -190,29 +198,29 @@ const Dashboard = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {logic.map((item) => (
-                  <TableRow key={item.exercise}>
-                    <TableCell>{item.exercise}</TableCell>
-                    <TableCell>
-                      <Text>{item.date}</Text>
-                    </TableCell>
-                    <TableCell>
-                      <Text>{item.duration}</Text>
-                    </TableCell>
-                    <TableCell>
-                      <span className="hover:text-indigo-600 pr-3">
-                        <Link to={`/edit/${item.edit}`}>Edit</Link>
-                      </span>
-                      <button
-                        className="hover:text-indigo-600 pl-3"
-                        onClick={() => handleDeleteExercise(item.delete)}
-                      >
-                        Delete
-                      </button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
+  {activities.map((activity) => (
+    <TableRow key={activity.id}>
+      <TableCell>{activity.exercise}</TableCell>
+      <TableCell>
+        <Text>{activity.date}</Text>
+      </TableCell>
+      <TableCell>
+        <Text>{activity.duration}</Text>
+      </TableCell>
+      <TableCell>
+        <span className="hover:text-indigo-600 pr-3">
+          <Link to={`/edit/${activity.id}`}>Edit</Link> 
+        </span>
+        <button
+          className="hover:text-indigo-600 pl-3"
+          onClick={() => handleDeleteExercise(activity.id)}
+        >
+          Delete
+        </button>
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
             </Table>
           </Card>
         </div>

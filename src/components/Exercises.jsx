@@ -5,36 +5,11 @@ import { useNavigate } from "react-router-dom";
 const Activities = () => {
   let navigate = useNavigate();
 
-  const handleAddExercise = async (selectedExercise) => {
-    const exerciseData = {
-      exercise: selectedExercise.title, // Make sure this matches your backend's expected params
-      duration: 30, // Set a default duration or get from user
-      date: new Date().toISOString().slice(0, 10), // Set today's date as default or get from user
-    };
-
-    const jwtToken = localStorage.getItem("jwt");
-
-    try {
-      const response = await fetch("http://localhost:4000/activity_logs", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwtToken}`,
-        },
-        body: JSON.stringify(exerciseData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to add exercise");
-      }
-
-      const newActivityLog = await response.json();
-      navigate(`/edit/${newActivityLog.id}`, {
-        state: { activityLog: newActivityLog },
-      });
-    } catch (error) {
-      console.error("Error adding exercise:", error);
-    }
+  const handleAddExercise = (selectedExercise) => {
+    // Navigate to the edit page with the selectedExercise data
+    navigate(`/add/${selectedExercise.id}`, {
+      state: { selectedExercise: selectedExercise },
+    });
   };
 
   return (
@@ -61,7 +36,7 @@ const Activities = () => {
               <p className="my-4 text-[#ffffff]">{exercise.title}</p>
               <div className="flex justify-center">
                 <button
-                  className="flex bg-white text-[#000000]  rounded-full mb-2 mx-auto py-1 px-3 hover:scale-110 duration-500 border-2 border-indigo-600 hover:bounceOrig shadow-xl"
+                  className="flex bg-white text-[#000000] rounded-full mb-2 mx-auto py-1 px-3 hover:scale-110 duration-500 border-2 border-indigo-600 hover:bounceOrig shadow-xl"
                   onClick={() => handleAddExercise(exercise)}
                 >
                   Add
