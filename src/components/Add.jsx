@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import bgImg from "../assets/hero-img.avif";
 
 const Add = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const exerciseName = location.state?.exercise || "No exercise selected"; // Get the exercise name from the location state
+
   const [workout, setWorkout] = useState({
-    exercise: "",
+    exercise: exerciseName,
     date: "",
     duration: "",
   });
@@ -17,20 +20,14 @@ const Add = () => {
 
   const handleCreate = async () => {
     const jwtToken = localStorage.getItem("jwt");
-    console.log("JWT Token:", jwtToken); // Debug the token
-
-    const url = "http://localhost:4000/activity_logs";
 
     try {
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: jwtToken, // Use the token as is, assuming it already has 'Bearer '
-      };
-      console.log("Request Headers:", headers); // Debug the headers
-
-      const response = await fetch(url, {
+      const response = await fetch("http://localhost:4000/activity_logs", {
         method: "POST",
-        headers: headers,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${jwtToken}`,
+        },
         body: JSON.stringify({ activity_log: workout }),
       });
 
@@ -38,22 +35,15 @@ const Add = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log("Success:", data);
-
-      // Redirect to the dashboard after successful submission
+      await response.json();
       navigate("/dashboard");
     } catch (error) {
       console.error("Error creating the workout:", error);
-      // Optionally, update state here to show error message to the user
     }
   };
 
   return (
-    <div
-      name="edit"
-      className="h-screen w-full flex flex-col justify-between items-center"
-    >
+    <div className="h-screen w-full flex flex-col justify-between items-center">
       <div className="grid md:grid-cols-2 max-w-[1240px] m-auto mx-9">
         <div className="m-9">
           <img
@@ -70,14 +60,9 @@ const Add = () => {
 
             <div className="flex flex-col py-2">
               <label>Exercise</label>
-              <input
-                className="border-2 border-indigo-600 rounded-full p-2"
-                type="text"
-                name="exercise"
-                value={workout.exercise}
-                onChange={handleInputChange}
-                placeholder="Enter exercise name"
-              />
+              <div className="p-2 rounded-full bg-indigo-100 text-indigo-600">
+                {exerciseName}
+              </div>
             </div>
 
             <div className="flex flex-col py-2">
@@ -90,7 +75,6 @@ const Add = () => {
                 onChange={handleInputChange}
               />
             </div>
-
             <div className="flex flex-col py-2">
               <label>Duration - minutes</label>
               <input

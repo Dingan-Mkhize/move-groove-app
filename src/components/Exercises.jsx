@@ -6,9 +6,8 @@ const Activities = () => {
   let navigate = useNavigate();
 
   const handleAddExercise = (selectedExercise) => {
-    // Navigate to the edit page with the selectedExercise data
     navigate(`/add/${selectedExercise.id}`, {
-      state: { selectedExercise: selectedExercise },
+      state: { exercise: selectedExercise.title },
     });
   };
 
