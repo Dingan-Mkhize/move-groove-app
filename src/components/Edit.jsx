@@ -1,100 +1,112 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import bgImg from "../assets/hero-img.avif";
 
 const Edit = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { exerciseId } = useParams(); // Get the exerciseId from the URL
   const [workout, setWorkout] = useState({
     exercise: "",
     date: "",
     duration: "",
   });
 
+  useEffect(() => {
+    if (location.state && location.state.workoutData) {
+      setWorkout(location.state.workoutData);
+    } else {
+      // Fetch the exercise data if not provided in location.state
+      const fetchExerciseData = async () => {
+        // Assuming you have a JWT token and an endpoint to fetch a single exercise
+        try {
+          const response = await fetch(
+            `http://localhost:4000/activity_logs/${exerciseId}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `${localStorage.getItem("jwt")}`,
+              },
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setWorkout(data);
+        } catch (error) {
+          console.error("Fetch error:", error);
+        }
+      };
+      fetchExerciseData();
+    }
+  }, [exerciseId, location.state]);
+
+  // This effect sets the workout data when the component mounts
+  useEffect(() => {
+    if (location.state && location.state.workoutData) {
+      setWorkout(location.state.workoutData);
+    }
+  }, [location.state]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setWorkout({ ...workout, [name]: value });
   };
 
-  const handleCreate = async () => {
+  const handleUpdate = async () => {
     const jwtToken = localStorage.getItem("jwt");
-    console.log("JWT Token:", jwtToken); // Debug the token
-
-    const url = "http://localhost:4000/activity_logs";
 
     try {
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: jwtToken, // Use the token as is, assuming it already has 'Bearer '
-      };
-      console.log("Request Headers:", headers); // Debug the headers
+      const response = await fetch(
+        `http://localhost:4000/activity_logs/${workout.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${jwtToken}`,
+          },
+          body: JSON.stringify({ activity_log: workout }),
+        }
+      );
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify({ activity_log: workout }),
-      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-      // ... rest of your function
+      const updatedData = await response.json();
+      console.log("Success:", updatedData);
+      navigate("/dashboard"); // Redirect to the dashboard after update
     } catch (error) {
-      console.error("Error creating the workout:", error);
+      console.error("Error updating the workout:", error);
     }
   };
 
-  // const handleUpdate = async () => {
-  //   const url = `http://localhost:4000/activity_logs/${workout.id}`;
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-  //       },
-  //       body: JSON.stringify({ activity_log: workout }),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     const data = await response.json();
-  //     console.log("Success:", data);
-  //     navigate("/dashboard");
-  //   } catch (error) {
-  //     console.error("Error updating the workout:", error);
-  //   }
-  // };
-
   return (
-    <div
-      name="edit"
-      className="h-screen w-full flex flex-col justify-between items-center"
-    >
+    <div className="h-screen w-full flex flex-col justify-between items-center">
       <div className="grid md:grid-cols-2 max-w-[1240px] m-auto mx-9">
         <div className="m-9">
           <img
             className="w-full rounded-xl shadow-xl shadow-[#7d7d7d] border-2 border-indigo-600"
             src={bgImg}
-            alt="/"
+            alt="Background"
           />
         </div>
         <div className="flex flex-col justify-center">
           <form className="max-w-[400px] w-full mx-auto rounded-md p-6">
             <h2 className="text-4xl font-bold text-center py-6">
-              Add Your Workout
+              Edit Your Workout
             </h2>
 
+            {/* Non-editable field for exercise */}
             <div className="flex flex-col py-2">
               <label>Exercise</label>
-              <input
-                className="border-2 border-indigo-600 rounded-full p-2"
-                type="text"
-                name="exercise"
-                value={workout.exercise}
-                onChange={handleInputChange}
-                placeholder="Enter exercise name"
-              />
+              <div className="p-2 rounded-full bg-indigo-100 text-indigo-600">
+                {workout.exercise}
+              </div>
             </div>
 
+            {/* Editable fields for date and duration */}
             <div className="flex flex-col py-2">
               <label>Date</label>
               <input
@@ -105,7 +117,6 @@ const Edit = () => {
                 onChange={handleInputChange}
               />
             </div>
-
             <div className="flex flex-col py-2">
               <label>Duration - minutes</label>
               <input
@@ -119,10 +130,10 @@ const Edit = () => {
 
             <button
               type="button"
-              onClick={handleCreate}
+              onClick={handleUpdate}
               className="w-full py-3 px-6 my-4 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-xl"
             >
-              Submit
+              Update
             </button>
           </form>
         </div>
