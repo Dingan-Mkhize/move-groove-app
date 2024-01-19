@@ -15,67 +15,6 @@ import Swimming from "./assets/swimming.png";
 import Treadmill from "./assets/treadmill.png";
 import Yoga from "./assets/yoga.png";
 
-export const data = [
-  {
-    Month: "Jan 1",
-    Activities: 3,
-    "Page Views": 1012,
-    "Bounce Rate": 0.5,
-  },
-  //...
-  {
-    Month: "Feb 1",
-    Activities: 9,
-    "Page Views": 1232,
-    "Bounce Rate": 0.51,
-  },
-];
-
-export const logic = [
-  {
-    exercise: "Bench Press",
-    date: "20/09/2023",
-    duration: "30 min",
-    status: "Edit",
-  },
-  {
-    exercise: "Boxing",
-    date: "20/09/2023",
-    duration: "60 min",
-    status: "Edit",
-  },
-  {
-    exercise: "Cardio",
-    date: "20/09/2023",
-    duration: "45 min",
-    status: "Edit",
-  },
-  {
-    exercise: "Cycling",
-    date: "20/09/2023",
-    duration: "60 min",
-    status: "Edit",
-  },
-  {
-    exercise: "Dumbell",
-    date: "20/09/2023",
-    duration: "30 min",
-    status: "Edit",
-  },
-  {
-    exercise: "Exercise Bike",
-    date: "20/09/2023",
-    duration: "40 min",
-    status: "Edit",
-  },
-  {
-    exercise: "Jumping Rope",
-    date: "20/09/2023",
-    duration: "35 min",
-    status: "Edit",
-  },
-];
-
 export const Exercises = [
   {
     id: 1,

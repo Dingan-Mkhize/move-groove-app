@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from "react";
-//import { PencilIcon } from "@heroicons/react/outline";
+import DurationFrequencyChart from "../components/Chart.jsx";
 import { Link } from "react-router-dom";
 import {
-  //AreaChart,
   Card,
-  //Metric,
-  //TabList,
-  //Tab,
-  //TabGroup,
-  //TabPanels,
-  //TabPanel,
-} from "@tremor/react";
-
-import {
   Table,
   TableHead,
   TableRow,
@@ -23,25 +13,9 @@ import {
   Title,
 } from "@tremor/react";
 
-//import { logic } from "../Data";
-// import { data } from "../Data";
-
-// const numberFormatter = (value: number) =>
-//   Intl.NumberFormat("us").format(value).toString();
-// const percentageFormatter = (value: number) =>
-//   `${Intl.NumberFormat("us")
-//     .format(value * 100)
-//     .toString()}%`;
-// function sumArray(array: any[], metric: string) {
-//   return array.reduce(
-//     (accumulator, currentValue) => accumulator + currentValue[metric],
-//     0
-//   );
-// }
-
 const Dashboard = () => {
   const [activities, setActivities] = useState([]);
-  const jwtToken = localStorage.getItem("jwt"); // Retrieve JWT token from local storage
+  const jwtToken = localStorage.getItem("jwt");
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("jwt");
@@ -62,7 +36,7 @@ const Dashboard = () => {
         }
 
         const data = await response.json();
-        setActivities(data); // Set activities in state
+        setActivities(data);
       } catch (error) {
         console.error("Fetch error:", error);
       }
@@ -117,72 +91,9 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* <div className="mx-20 my-10 border-2 border-indigo-600 rounded shadow-xl">
-          <Card className="p-0">
-            <TabGroup>
-              <TabList>
-                <Tab className="p-4 sm:p-6 text-left">
-                  <p className="text-sm sm:text-base">Activities</p>
-                  <Metric className="mt-2 text-inherit">
-                    {numberFormatter(sumArray(data, "Activities"))}
-                  </Metric>
-                </Tab>
-                <Tab className="p-4 sm:p-6 text-left">
-                  <p className="text-sm sm:text-base">Page views</p>
-                  <Metric className="mt-2 text-inherit">
-                    {numberFormatter(sumArray(data, "Page Views"))}
-                  </Metric>
-                </Tab>
-                <Tab className="p-4 sm:p-6 text-left">
-                  <p className="text-sm sm:text-base">Bounce rate</p>
-                  <Metric className="mt-2 text-inherit">
-                    {percentageFormatter(
-                      sumArray(data, "Bounce Rate") / data.length
-                    )}
-                  </Metric>
-                </Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel className="p-6">
-                  <AreaChart
-                    className="h-80 mt-10"
-                    data={data}
-                    index="Month"
-                    categories={["Activities"]}
-                    colors={["blue"]}
-                    valueFormatter={numberFormatter}
-                    showLegend={false}
-                    yAxisWidth={50}
-                  />
-                </TabPanel>
-                <TabPanel className="p-6">
-                  <AreaChart
-                    className="h-80 mt-10"
-                    data={data}
-                    index="Month"
-                    categories={["Page Views"]}
-                    colors={["blue"]}
-                    valueFormatter={numberFormatter}
-                    showLegend={false}
-                    yAxisWidth={50}
-                  />
-                </TabPanel>
-                <TabPanel className="p-6">
-                  <AreaChart
-                    className="h-80 mt-10"
-                    data={data}
-                    index="Month"
-                    categories={["Bounce Rate"]}
-                    colors={["blue"]}
-                    valueFormatter={percentageFormatter}
-                    showLegend={false}
-                    yAxisWidth={40}
-                  />
-                </TabPanel>
-              </TabPanels>
-            </TabGroup>
-          </Card>
-        </div> */}
+        <div className="mx-20 my-10 border-2 border-indigo-600 rounded shadow-xl">
+          <DurationFrequencyChart activities={activities} />
+        </div>
 
         <div className="mx-20 my-10 border-2 border-indigo-600 rounded shadow-xl">
           <Card>
@@ -198,29 +109,29 @@ const Dashboard = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-  {activities.map((activity) => (
-    <TableRow key={activity.id}>
-      <TableCell>{activity.exercise}</TableCell>
-      <TableCell>
-        <Text>{activity.date}</Text>
-      </TableCell>
-      <TableCell>
-        <Text>{activity.duration}</Text>
-      </TableCell>
-      <TableCell>
-        <span className="hover:text-indigo-600 pr-3">
-          <Link to={`/edit/${activity.id}`}>Edit</Link> 
-        </span>
-        <button
-          className="hover:text-indigo-600 pl-3"
-          onClick={() => handleDeleteExercise(activity.id)}
-        >
-          Delete
-        </button>
-      </TableCell>
-    </TableRow>
-  ))}
-</TableBody>
+                {activities.map((activity) => (
+                  <TableRow key={activity.id}>
+                    <TableCell>{activity.exercise}</TableCell>
+                    <TableCell>
+                      <Text>{activity.date}</Text>
+                    </TableCell>
+                    <TableCell>
+                      <Text>{activity.duration}</Text>
+                    </TableCell>
+                    <TableCell>
+                      <span className="hover:text-indigo-600 pr-3">
+                        <Link to={`/edit/${activity.id}`}>Edit</Link>
+                      </span>
+                      <button
+                        className="hover:text-indigo-600 pl-3"
+                        onClick={() => handleDeleteExercise(activity.id)}
+                      >
+                        Delete
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
             </Table>
           </Card>
         </div>
