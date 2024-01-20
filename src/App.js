@@ -26,15 +26,17 @@ function App() {
   return (
     <LoginContext.Provider value={[loggedIn, changeLoggedIn]}>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/exercises" element={<Exercises />} />
-        <Route path="/edit/:exerciseId" element={<Edit />} />
-        <Route path="/add/:id" element={<Add />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
+      <div className="max-w-[1240px] mx-auto">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/exercises" element={<Exercises />} />
+          <Route path="/edit/:exerciseId" element={<Edit />} />
+          <Route path="/add/:id" element={<Add />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </div>
       <Footer />
     </LoginContext.Provider>
   );

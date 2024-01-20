@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import bgImg from "../assets/hero-img.avif";
+import bgImg from "../assets/mg-hero-img-add.png";
 
 const Add = () => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
-import signupImg from "../assets/signupImg.jpeg";
+import signupImg from "../assets/mg-signup-img.png";
 
 const Signup = () => {
   const [password, setPassword] = useState("");

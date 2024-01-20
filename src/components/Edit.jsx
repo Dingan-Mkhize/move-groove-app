@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import bgImg from "../assets/hero-img.avif";
+import bgImg from "../assets/mg-hero-img-edit.png";
 
 const Edit = () => {
   const navigate = useNavigate();

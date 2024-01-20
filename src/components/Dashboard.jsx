@@ -72,7 +72,7 @@ const Dashboard = () => {
   return (
     <div
       name="dashboard"
-      className="w-full h-fit grid md:grid-cols-1 items-center"
+      className="w-full h-fit grid md:grid-cols-1 grid-cols-1 items-center"
     >
       <div className="mt-10">
         <div className="mt-20 mx-20">
@@ -80,13 +80,15 @@ const Dashboard = () => {
             Dashboard
           </header>
 
-          <div className=" flex flex-col items-center justify-center">
+          <div className=" flex flex-col items-center justify-center mt-6">
             <h1 className="text-center text-xl italic py-6 text-[#000000] font-bold">
               Add a new exercise to your routine!
             </h1>
 
-            <button className="items-center py-3 sm:w-[30%] my-4 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-xl">
-              <Link to="/exercises">New Exercise</Link>
+            <button className="mx-auto my-4 bg-indigo-600 text-white font-semibold py-2 px-10 rounded-full hover:bounceOrig shadow-xl transition ease-in duration-200 min-w-[200px]">
+              <Link to="/exercises" className="block text-center">
+                New Exercise
+              </Link>
             </button>
           </div>
         </div>

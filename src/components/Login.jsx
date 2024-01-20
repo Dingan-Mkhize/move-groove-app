@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
-import loginImg from "../assets/loginImg.avif";
+import loginImg from "../assets/mg-login-img.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
