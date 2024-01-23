@@ -60,7 +60,7 @@ const Add = () => {
 
             <div className="flex flex-col py-2">
               <label>Exercise</label>
-              <div className="p-2 rounded-full bg-indigo-100 text-indigo-600">
+              <div className="border-2 border-indigo-600 bg-indigo-100 rounded-full p-2">
                 {exerciseName}
               </div>
             </div>

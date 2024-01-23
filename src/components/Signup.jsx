@@ -33,10 +33,13 @@ const Signup = () => {
       const data = await response.json();
 
       if (response.status === 200) {
-        localStorage.setItem("jwt", JSON.stringify(data.status.data));
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("jwt", response.headers.get("Authorization"));
+        console.log(
+          "Token stored in localStorage:",
+          response.headers.get("Authorization"))
         setLoggedIn(true);
         setErrorMessage("");
-        // Navigate to the dashboard after successful signup
         navigate("/dashboard");
       } else {
         setErrorMessage(data.message || "Error!");
