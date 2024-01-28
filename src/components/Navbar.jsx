@@ -5,11 +5,12 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
-  const handleClick = () => setNav(!nav);
-  const handleClose = () => setNav(!nav);
-
   const [loggedIn, setLoggedIn] = useContext(LoginContext);
   const navigate = useNavigate();
+
+  const handleNav = () => {
+    setNav(!nav);
+  };
 
   useEffect(() => {
     // This useEffect runs whenever loggedIn state changes
@@ -18,6 +19,19 @@ const Navbar = () => {
       setNav(false);
     }
   }, [loggedIn]);
+
+  useEffect(() => {
+    // This useEffect handles the window resize
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setNav(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const logOutUser = async (event) => {
     event.preventDefault();
@@ -29,7 +43,7 @@ const Navbar = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `${token}`,
+          Authorization: `${token}`,
         },
         credentials: "include",
       });
@@ -41,7 +55,7 @@ const Navbar = () => {
         //console.log(data.status.message);
         localStorage.removeItem("jwt");
         setLoggedIn(false);
-        navigate("/")
+        navigate("/");
       } else {
         const data = await response.json();
         alert(data.message || "Logout failed");
@@ -59,7 +73,6 @@ const Navbar = () => {
       <div className="px-2 flex justify-between items-center w-full h-full">
         {/* Logo Section */}
         <h1 className="text-3xl font-bold ml-9 sm:text-4xl">M & G.</h1>
-
         {/* Navigation Section */}
         <div className="flex ml-auto mr-9">
           <ul className="hidden md:flex space-x-3">
@@ -94,59 +107,82 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden mr-4" onClick={handleClick}>
-          {!nav ? <MenuIcon className="w-5" /> : <XIcon className="w-5" />}
+        <div className="block md:hidden mr-6">
+          <button onClick={handleNav}>
+            {nav ? <XIcon className="w-5" /> : <MenuIcon className="w-5" />}
+          </button>
         </div>
-
-        {/* Mobile Menu */}
-        <ul className={!nav ? "hidden" : "absolute bg-zinc-200 w-full px-8 mt-9"}>
-          {loggedIn ? (
-            // Links when logged in
-            <>
-              <li
-                className="border-b-2 border-zinc-300 w-full"
-                onClick={handleClose}
-              >
-                <Link to="/">Home</Link>
-              </li>
-              <li
-                className="border-b-2 border-zinc-300 w-full"
-                onClick={handleClose}
-              >
-                <Link to="/dashboard">Dashboard</Link>
-              </li>
-              <li
-                className="border-b-2 border-zinc-300 w-full"
-                onClick={handleClose}
-              >
-                <Link to="/exercises">Exercises</Link>
-              </li>
-              <li
-                className="border-b-2 border-zinc-300 w-full"
-                onClick={logOutUser}
-              >
-                Logout
-              </li>
-            </>
-          ) : (
-            // Links when logged out
-            <>
-              <li
-                className="border-b-2 border-zinc-300 w-full"
-                onClick={handleClose}
-              >
-                <Link to="/login">Login</Link>
-              </li>
-              <li
-                className="border-b-2 border-zinc-300 w-full"
-                onClick={handleClose}
-              >
-                <Link to="/signup">Signup</Link>
-              </li>
-            </>
-          )}
-        </ul>
       </div>
+      <ul
+        className={
+          nav
+            ? "fixed left-0 top-0 w-[60%] h-full bg-zinc-300 ease-in-out duration-500"
+            : "ease-in-out duration-500 fixed left-[-100%]"
+        }
+      >
+        <h1 className="text-3xl hero-font font-bold border-black text-black p-3">
+          M & G
+        </h1>
+        {loggedIn ? (
+          <>
+            <li className="p-4 border-b border-black bg-zinc-300 text-black hover:text-indigo-600">
+              <Link
+                onClick={handleNav}
+                to="/"
+                smooth={true}
+                duration={500}
+                className="cursor-pointer"
+              >
+                Home
+              </Link>
+            </li>
+            <li className="p-4 border-b border-black bg-zinc-300 text-black hover:text-indigo-600">
+              <Link
+                onClick={handleNav}
+                to="/dashboard"
+                smooth={true}
+                duration={500}
+                className="cursor-pointer"
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li className="p-4 border-b border-black bg-zinc-300 text-black hover:text-indigo-600">
+              <Link
+                onClick={handleNav}
+                to="/exercises"
+                smooth={true}
+                duration={500}
+                className="cursor-pointer"
+              >
+                Exercises
+              </Link>
+            </li>
+            <li
+              className="p-4 border-gray-900 bg-zinc-300 rounded-br-3xl hover:text-indigo-600"
+              onClick={logOutUser}
+            >
+              Logout
+            </li>
+          </>
+        ) : (
+          <>
+            {/* Logged-out links */}
+            <li
+              className="p-4 border-b border-gray-900 bg-zinc-300 hover:text-indigo-600"
+              onClick={handleNav}
+            >
+              <Link to="/login">Login</Link>
+            </li>
+            <li
+              className="p-4 border-gray-900 bg-zinc-300 rounded-br-3xl hover:text-indigo-600"
+              onClick={handleNav}
+            >
+              <Link to="/signup">Signup</Link>
+            </li>
+          </>
+        )}
+      </ul>
     </div>
   );
 };

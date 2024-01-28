@@ -1,4 +1,4 @@
-//import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   VictoryLine,
   VictoryChart,
@@ -10,6 +10,26 @@ import {
 } from "victory";
 
 const DurationFrequencyChart = ({ activities }) => {
+
+const [chartWidth, setChartWidth] = useState(
+  window.innerWidth < 768 ? window.innerWidth : 900
+);
+const [chartHeight, setChartHeight] = useState(
+  window.innerWidth < 768 ? 300 : 400
+);
+
+useEffect(() => {
+  function handleResize() {
+    setChartWidth(window.innerWidth < 768 ? window.innerWidth : 900);
+    setChartHeight(window.innerWidth < 768 ? 300 : 400);
+  }
+
+  window.addEventListener("resize", handleResize);
+
+  // Cleanup the event listener on component unmount
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
@@ -25,14 +45,15 @@ const DurationFrequencyChart = ({ activities }) => {
 
   return (
     <>
-      <h3 className="text-center text-lg font-semibold text-black mt-6">
+      <h3 className="text-center text-2xl font-semibold text-black mb-6">
         Exercise Duration and Frequency
       </h3>
       <VictoryChart
         theme={VictoryTheme.material}
-        width={900}
-        height={400}
-        containerComponent={<VictoryVoronoiContainer responsive />}
+        width={chartWidth}
+        height={chartHeight}
+        padding={{ top: 20, bottom: 90, left: 50, right: 50 }}
+        containerComponent={<VictoryVoronoiContainer responsive={true} />}
       >
         {/* X and Y Axes */}
         <VictoryAxis
@@ -41,8 +62,8 @@ const DurationFrequencyChart = ({ activities }) => {
             tickLabels: {
               angle: -45,
               textAnchor: "end",
-              fontSize: 9,
-              padding: 3,
+              fontSize: 12,
+              padding: 5,
               fill: "black",
             },
           }}
@@ -52,7 +73,8 @@ const DurationFrequencyChart = ({ activities }) => {
           tickFormat={(x) => `${x} min`}
           style={{
             tickLabels: {
-              fontSize: 9,
+              fontSize: 12,
+              padding: 3,
               fill: "black",
             },
           }}
@@ -78,7 +100,7 @@ const DurationFrequencyChart = ({ activities }) => {
           labelComponent={
             <VictoryTooltip
               flyoutStyle={{ fill: "white", stroke: "gray", strokeWidth: 1 }}
-              style={{ fontSize: 10, fill: "black" }}
+              style={{ fontSize: 12, fill: "black" }}
             />
           }
           labels={({ datum }) =>
