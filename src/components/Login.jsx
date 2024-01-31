@@ -73,6 +73,7 @@ const Login = () => {
                 className="border-2 border-black rounded-full p-2"
                 value={email}
                 type="email"
+                autoComplete="email"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -82,10 +83,11 @@ const Login = () => {
                 className="border-2 border-black rounded-full p-2"
                 value={password}
                 type="password"
+                autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <button className="border w-full my-3 py-2 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-x">
+            <button className="border w-full my-3 py-2 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-x cursor-pointer">
               Log In
             </button>
           </form>

@@ -10,6 +10,7 @@ const Navbar = () => {
 
   const handleNav = () => {
     setNav(!nav);
+  
   };
 
   useEffect(() => {
@@ -52,7 +53,6 @@ const Navbar = () => {
       console.log("Response Data:", data);
 
       if (response.ok) {
-        //console.log(data.status.message);
         localStorage.removeItem("jwt");
         setLoggedIn(false);
         navigate("/");
@@ -71,13 +71,10 @@ const Navbar = () => {
       className="w-screen h-[80px] z-10 bg-zinc-300 fixed drop-shadow-lg"
     >
       <div className="px-2 flex justify-between items-center w-full h-full">
-        {/* Logo Section */}
         <h1 className="text-3xl font-bold ml-9 sm:text-4xl">M & G.</h1>
-        {/* Navigation Section */}
         <div className="flex ml-auto mr-9">
           <ul className="hidden md:flex space-x-3">
             {loggedIn ? (
-              // Links when logged in
               <>
                 <li className="hover:text-indigo-600 hover:bounceOrig mt-3">
                   <Link to="/">Home</Link>
@@ -93,7 +90,6 @@ const Navbar = () => {
                 </li>
               </>
             ) : (
-              // Links when logged out
               <>
                 <li className="bg-transparent hover:bg-indigo-600 font-bold hover:text-white py-3 px-4 border-2 border-indigo-600 hover:border-transparent hover:bounceOrig rounded-full text-indigo-600 mr-4 shadow-xl">
                   <Link to="/login">Login</Link>
@@ -129,8 +125,6 @@ const Navbar = () => {
               <Link
                 onClick={handleNav}
                 to="/"
-                smooth={true}
-                duration={500}
                 className="cursor-pointer"
               >
                 Home
@@ -140,8 +134,6 @@ const Navbar = () => {
               <Link
                 onClick={handleNav}
                 to="/dashboard"
-                smooth={true}
-                duration={500}
                 className="cursor-pointer"
               >
                 Dashboard
@@ -151,15 +143,13 @@ const Navbar = () => {
               <Link
                 onClick={handleNav}
                 to="/exercises"
-                smooth={true}
-                duration={500}
                 className="cursor-pointer"
               >
                 Exercises
               </Link>
             </li>
             <li
-              className="p-4 border-gray-900 bg-zinc-300 rounded-br-3xl hover:text-indigo-600"
+              className="p-4 border-gray-900 bg-zinc-300 rounded-br-3xl hover:text-indigo-600 cursor-pointer"
               onClick={logOutUser}
             >
               Logout
@@ -169,13 +159,13 @@ const Navbar = () => {
           <>
             {/* Logged-out links */}
             <li
-              className="p-4 border-b border-gray-900 bg-zinc-300 hover:text-indigo-600"
+              className="p-4 border-b border-gray-900 bg-zinc-300 hover:text-indigo-600 cursor-pointer"
               onClick={handleNav}
             >
               <Link to="/login">Login</Link>
             </li>
             <li
-              className="p-4 border-gray-900 bg-zinc-300 rounded-br-3xl hover:text-indigo-600"
+              className="p-4 border-gray-900 bg-zinc-300 rounded-br-3xl hover:text-indigo-600 cursor-pointer"
               onClick={handleNav}
             >
               <Link to="/signup">Signup</Link>

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import DurationFrequencyChart from "../components/Chart.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginContext } from "../App"
 import {
   Card,
   Table,
@@ -16,10 +17,13 @@ import {
 const Dashboard = () => {
   const [activities, setActivities] = useState([]);
   const jwtToken = localStorage.getItem("jwt");
+  const navigate = useNavigate();
+  const [, setLoggedIn] = useContext(LoginContext);
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("jwt");
     console.log(`${jwtToken}`); // Log the JWT token
+    //if jwt token not present or invalid clear local storage  and redirect to login page
 
     const fetchActivities = async () => {
       console.log("Fetching activities...");
@@ -32,18 +36,25 @@ const Dashboard = () => {
         });
 
         if (!response.ok) {
+          if (response.status === 401) {
+            console.log("Unauthorized: Token may be invalid or expired");
+            setLoggedIn(false); // Update login state
+            localStorage.removeItem("jwt"); // Clear stored token
+            navigate("/"); // Redirect to login page
+            return;
+          }
           throw new Error("Network response was not ok");
         }
 
         const data = await response.json();
-        setActivities(data);
+        setActivities(data); // Keep this to update your activities state
       } catch (error) {
         console.error("Fetch error:", error);
       }
     };
 
     fetchActivities();
-  }, [jwtToken]); // Depend on jwtToken
+  }, [jwtToken, navigate, setLoggedIn]); // Depend on jwtToken
 
   const handleDeleteExercise = async (exerciseId) => {
     try {
@@ -58,16 +69,24 @@ const Dashboard = () => {
       );
 
       if (!response.ok) {
+        if (response.status === 401) {
+          console.log("Unauthorized: Token may be invalid or expired");
+          setLoggedIn(false); // Update login state
+          localStorage.removeItem("jwt"); // Clear stored token
+          navigate("/"); // Redirect to login page
+          return;
+        }
         throw new Error("Failed to delete exercise");
       }
 
       setActivities(
         activities.filter((activity) => activity.id !== exerciseId)
-      ); // Update state
+      ); // Keep this to update your activities state after deletion
     } catch (error) {
       console.error("Error deleting exercise:", error);
     }
   };
+
 
   return (
     <div

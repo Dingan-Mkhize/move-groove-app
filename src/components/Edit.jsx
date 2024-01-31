@@ -18,7 +18,6 @@ const Edit = () => {
     } else {
       // Fetch the exercise data if not provided in location.state
       const fetchExerciseData = async () => {
-        // Assuming you have a JWT token and an endpoint to fetch a single exercise
         try {
           const response = await fetch(
             `http://localhost:4000/activity_logs/${exerciseId}`,
@@ -87,13 +86,19 @@ const Edit = () => {
       <div className="grid md:grid-cols-2 max-w-[1240px] m-auto mx-9">
         <div className="m-9">
           <img
-            className="w-full rounded-xl shadow-xl shadow-[#7d7d7d] border-2 border-indigo-600"
+            className="w-full rounded-xl shadow-xl shadow-[#7d7d7d] border-2 border-indigo-600 mt-12"
             src={bgImg}
             alt="Background"
           />
         </div>
         <div className="flex flex-col justify-center">
-          <form className="max-w-[400px] w-full mx-auto rounded-md p-6">
+          <form
+            className="max-w-[400px] w-full mx-auto rounded-md p-6"
+            onSubmit={(e) => {
+              e.preventDefault(); 
+              handleUpdate(); 
+            }}
+          >
             <h2 className="text-4xl font-bold text-center py-6">
               Edit Your Workout
             </h2>
@@ -115,6 +120,7 @@ const Edit = () => {
                 name="date"
                 value={workout.date}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="flex flex-col py-2">
@@ -125,12 +131,12 @@ const Edit = () => {
                 name="duration"
                 value={workout.duration}
                 onChange={handleInputChange}
+                required
               />
             </div>
 
             <button
-              type="button"
-              onClick={handleUpdate}
+              type="submit"
               className="w-full py-3 px-6 my-4 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-xl"
             >
               Update

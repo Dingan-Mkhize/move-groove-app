@@ -18,7 +18,8 @@ const Add = () => {
     setWorkout({ ...workout, [name]: value });
   };
 
-  const handleCreate = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const jwtToken = localStorage.getItem("jwt");
 
     try {
@@ -47,13 +48,13 @@ const Add = () => {
       <div className="grid md:grid-cols-2 max-w-[1240px] m-auto mx-9">
         <div className="m-9">
           <img
-            className="w-full rounded-xl shadow-xl shadow-[#7d7d7d] border-2 border-indigo-600"
+            className="w-full rounded-xl shadow-xl shadow-[#7d7d7d] border-2 border-indigo-600 mt-12"
             src={bgImg}
             alt="/"
           />
         </div>
         <div className="flex flex-col justify-center">
-          <form className="max-w-[400px] w-full mx-auto rounded-md p-6">
+          <form onSubmit={handleSubmit} className="max-w-[400px] w-full mx-auto rounded-md p-6">
             <h2 className="text-4xl font-bold text-center py-6">
               Add Your Workout
             </h2>
@@ -73,6 +74,7 @@ const Add = () => {
                 name="date"
                 value={workout.date}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="flex flex-col py-2">
@@ -83,12 +85,12 @@ const Add = () => {
                 name="duration"
                 value={workout.duration}
                 onChange={handleInputChange}
+                required
               />
             </div>
 
             <button
-              type="button"
-              onClick={handleCreate}
+              type="submit"
               className="w-full py-3 px-6 my-4 bg-indigo-600 rounded-full text-white hover:bounceOrig shadow-xl"
             >
               Submit

@@ -19,7 +19,7 @@ const Hero = () => {
         </div>
         <div className="mx-9">
           <img
-            className="w-full rounded-xl shadow-xl shadow-[#7d7d7d] border-2 border-indigo-600"
+            className="w-full rounded-xl shadow-xl shadow-[#7d7d7d] border-2 border-indigo-600 mt-12"
             src={bgImg}
             alt="/"
           />
