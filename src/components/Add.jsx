@@ -5,7 +5,7 @@ import bgImg from "../assets/mg-hero-img-add.png";
 const Add = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const exerciseName = location.state?.exercise || "No exercise selected"; // Get the exercise name from the location state
+  const exerciseName = location.state?.exercise || "No exercise selected"; 
 
   const [workout, setWorkout] = useState({
     exercise: exerciseName,

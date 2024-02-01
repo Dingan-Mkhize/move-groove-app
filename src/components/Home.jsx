@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom"
 import bgImg from "../assets/mg-hero-img.png";
 
@@ -19,7 +18,7 @@ const Hero = () => {
         </div>
         <div className="mx-9">
           <img
-            className="w-full rounded-xl shadow-xl shadow-[#7d7d7d] border-2 border-indigo-600 mt-12"
+            className="w-full rounded-xl shadow-xl shadow-[#7d7d7d] border-2 border-indigo-600 my-9"
             src={bgImg}
             alt="/"
           />

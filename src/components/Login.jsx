@@ -12,7 +12,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if a JWT token is present in local storage and update loggedIn state
     const jwtToken = localStorage.getItem("jwt");
     setLoggedIn(!!jwtToken);
   }, [setLoggedIn]); 
@@ -38,8 +37,6 @@ const Login = () => {
           response.headers.get("Authorization")
         );
         setLoggedIn(true);
-
-        // Navigate to the dashboard after successfully logging in
         navigate("/dashboard");
       } else {
         console.error("Login failed:", data.message);

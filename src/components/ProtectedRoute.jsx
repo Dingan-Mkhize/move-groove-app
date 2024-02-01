@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { LoginContext } from "../App"; // Adjust the import path as needed
+import { LoginContext } from "../App";
 
 const ProtectedRoute = () => {
   const [loggedIn] = useContext(LoginContext);

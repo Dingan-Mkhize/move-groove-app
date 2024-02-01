@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("jwt");
-    console.log(`${jwtToken}`); // Log the JWT token
+    console.log(`${jwtToken}`); 
     //if jwt token not present or invalid clear local storage  and redirect to login page
 
     const fetchActivities = async () => {
@@ -31,7 +31,7 @@ const Dashboard = () => {
         const response = await fetch("http://localhost:4000/activity_logs", {
           method: "GET",
           headers: {
-            Authorization: `${jwtToken}`, // Use jwtToken in the request console.log(`Bearer ${jwtToken}`);
+            Authorization: `${jwtToken}`, 
           },
         });
 
@@ -47,14 +47,14 @@ const Dashboard = () => {
         }
 
         const data = await response.json();
-        setActivities(data); // Keep this to update your activities state
+        setActivities(data); 
       } catch (error) {
         console.error("Fetch error:", error);
       }
     };
 
     fetchActivities();
-  }, [jwtToken, navigate, setLoggedIn]); // Depend on jwtToken
+  }, [jwtToken, navigate, setLoggedIn]); 
 
   const handleDeleteExercise = async (exerciseId) => {
     try {
@@ -63,7 +63,7 @@ const Dashboard = () => {
         {
           method: "DELETE",
           headers: {
-            Authorization: `${jwtToken}`, // Use jwtToken in the request header
+            Authorization: `${jwtToken}`, 
           },
         }
       );
@@ -81,7 +81,7 @@ const Dashboard = () => {
 
       setActivities(
         activities.filter((activity) => activity.id !== exerciseId)
-      ); // Keep this to update your activities state after deletion
+      ); 
     } catch (error) {
       console.error("Error deleting exercise:", error);
     }
