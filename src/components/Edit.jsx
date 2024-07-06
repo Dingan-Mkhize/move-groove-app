@@ -103,7 +103,6 @@ const Edit = () => {
               Edit Your Workout
             </h2>
 
-            {/* Non-editable field for exercise */}
             <div className="flex flex-col py-2">
               <label>Exercise</label>
               <div className="p-2 rounded-full bg-indigo-100 text-indigo-600">

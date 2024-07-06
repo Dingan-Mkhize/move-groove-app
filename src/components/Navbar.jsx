@@ -10,7 +10,6 @@ const Navbar = () => {
 
   const handleNav = () => {
     setNav(!nav);
-  
   };
 
   useEffect(() => {
@@ -71,7 +70,9 @@ const Navbar = () => {
       className="w-screen h-[80px] z-10 bg-zinc-300 fixed drop-shadow-lg"
     >
       <div className="px-2 flex justify-between items-center w-full h-full">
-        <h1 className="text-3xl font-bold ml-9 sm:text-4xl">M & G.</h1>
+        <h1 className="text-3xl font-bold ml-9 sm:text-4xl cursor-pointer">
+          <Link to="/">M & G.</Link>
+        </h1>
         <div className="flex ml-auto mr-9">
           <ul className="hidden md:flex space-x-3">
             {loggedIn ? (
@@ -122,11 +123,7 @@ const Navbar = () => {
         {loggedIn ? (
           <>
             <li className="p-4 border-b border-black bg-zinc-300 text-black hover:text-indigo-600">
-              <Link
-                onClick={handleNav}
-                to="/"
-                className="cursor-pointer"
-              >
+              <Link onClick={handleNav} to="/" className="cursor-pointer">
                 Home
               </Link>
             </li>

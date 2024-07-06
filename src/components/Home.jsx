@@ -5,7 +5,7 @@ const Hero = () => {
   return (
     <div
       name="home"
-      className="w-full h-screen bg-white-200 flex flex-col justify-between items-center"
+      className="w-full h-screen bg-white-200 flex flex-col justify-between items-center pt-12"
     >
       <div className="grid md:grid-cols-2 max-w-[1240px] m-auto mx-9">
         <div className="flex flex-col md:items-start w-full px-2 py-9">
