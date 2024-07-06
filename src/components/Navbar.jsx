@@ -39,7 +39,7 @@ const Navbar = () => {
     try {
       const token = localStorage.getItem("jwt");
 
-      const response = await fetch("http://localhost:4000/logout", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/logout`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
