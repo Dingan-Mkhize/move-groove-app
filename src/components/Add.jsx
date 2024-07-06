@@ -23,7 +23,7 @@ const Add = () => {
     const jwtToken = localStorage.getItem("jwt");
 
     try {
-      const response = await fetch("http://localhost:4000/activity_logs", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/activity_logs`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -19,7 +19,7 @@ const Login = () => {
   async function logInUser(event) {
     try {
       event.preventDefault();
-      let response = await fetch("http://localhost:4000/login", {
+      let response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

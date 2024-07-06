@@ -28,12 +28,15 @@ const Dashboard = () => {
     const fetchActivities = async () => {
       console.log("Fetching activities...");
       try {
-        const response = await fetch("http://localhost:4000/activity_logs", {
-          method: "GET",
-          headers: {
-            Authorization: `${jwtToken}`, 
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/activity_logs`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `${jwtToken}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           if (response.status === 401) {
@@ -59,11 +62,11 @@ const Dashboard = () => {
   const handleDeleteExercise = async (exerciseId) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/activity_logs/${exerciseId}`,
+        `${process.env.REACT_APP_API_URL}/activity_logs/${exerciseId}`,
         {
           method: "DELETE",
           headers: {
-            Authorization: `${jwtToken}`, 
+            Authorization: `${jwtToken}`,
           },
         }
       );
